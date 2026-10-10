@@ -1,0 +1,99 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<html lang="es" data-theme="light" data-dades="montflorit.json" data-arrel="../" data-notes="https://github.com/meteo-montflorit/meteo-local/releases/tag/v3.57.0">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Recibe en el móvil o en el ordenador los avisos del tiempo en Montflorit (Cerdanyola del Vallès), como las notificaciones de cualquier aplicación, o en Telegram.">
+  <title>Avisos · El tiempo en Montflorit</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 14.9A7 7 0 1 1 15.7 8h1.8a4.5 4.5 0 0 1 2.5 8.2'/%3E%3Cpath d='M16 14v6M8 14v6M12 16v6'/%3E%3C/svg%3E">
+  <script>
+    // Tema abans de pintar, perquè no parpellegi: el del sistema, si no s'ha triat.
+    try {
+      const triat = localStorage.getItem('meteo.fosc');
+      const fosc = triat === null ? matchMedia('(prefers-color-scheme: dark)').matches : triat === '1';
+      document.documentElement.dataset.theme = fosc ? 'dark' : 'light';
+    } catch (_) {}
+  </script>
+  <link rel="manifest" href="../manifest.webmanifest">
+  <link rel="apple-touch-icon" href="../icones/apple-touch-icon.png">
+  <meta name="theme-color" content="#1d4ed8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#12161c" media="(prefers-color-scheme: dark)">
+  <link rel="stylesheet" href="../estil.css">
+  <link rel="alternate" hreflang="ca" href="https://meteo-montflorit.github.io/avisos.html">
+  <link rel="alternate" hreflang="es" href="https://meteo-montflorit.github.io/es/avisos.html">
+  <link rel="alternate" hreflang="x-default" href="https://meteo-montflorit.github.io/avisos.html">
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <!-- Icones de Lucide (ISC) -->
+    <symbol id="i-circle-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></symbol>
+    <symbol id="i-languages" viewBox="0 0 24 24"><path d="m5 8 6 6M4 14l6-6 2-3M2 5h12M7 2h1m14 20-5-10-5 10M14 18h6"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2m-7.07-17.07 1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol>
+    <symbol id="i-cloud-sun" viewBox="0 0 24 24"><path d="M12 2v2m-7.07.93 1.41 1.41M20 12h2m-2.93-7.07-1.41 1.41M15.947 12.65a4 4 0 0 0-5.925-4.128"/><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"/></symbol>
+    <symbol id="i-door-open" viewBox="0 0 24 24"><path d="M10 21H2M10 3H7a2 2 0 0 0-2 2v16M14 12h.01M22 21h-3"/><path d="M19 21V5a2 2 0 0 0-1.675-1.974l-6.163-1.013A1 1 0 0 0 10 3v18a1 1 0 0 0 1.124.992z"/></symbol>
+    <symbol id="i-bell-ring" viewBox="0 0 24 24"><path d="M10.268 21a2 2 0 0 0 3.464 0M22 8c0-2.3-.8-4.3-2-6"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326M4 2C2.8 3.7 2 5.7 2 8"/></symbol>
+    <symbol id="i-triangle-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3M12 9v4M12 17h.01"/></symbol>
+    <symbol id="i-waves" viewBox="0 0 24 24"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></symbol>
+    <symbol id="i-cloud-rain" viewBox="0 0 24 24"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242M16 14v6M8 14v6M12 16v6"/></symbol>
+    <symbol id="i-message-square-text" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2zM13 8H7M17 12H7"/></symbol>
+  </svg>
+
+  <header class="cap">
+    <div>
+      <h1>Avisos</h1>
+      <p class="ruta">Montflorit, Cerdanyola del Vallès</p>
+    </div>
+    <div class="cap-botons">
+      <nav class="idiomes" aria-label="Idioma"><svg aria-hidden="true"><use href="#i-languages"></use></svg><a href="../avisos.html" lang="ca" hreflang="ca" title="Català" aria-label="Català">CA</a><span lang="es" aria-current="page" title="Castellano" aria-label="Castellano">ES</span></nav>
+      <a class="boto-icona" href="com-funciona.html" title="Cómo funciona" aria-label="Cómo funciona"><svg aria-hidden="true"><use href="#i-circle-help"></use></svg></a>
+      <a class="boto-icona boto-avisos" href="avisos.html" aria-current="page" title="Avisos en el móvil" aria-label="Avisos en el móvil"><svg aria-hidden="true"><use href="#i-bell-ring"></use></svg></a>
+      <button type="button" id="btn-fosc" class="boto-icona" title="Cambia entre tema claro y oscuro" aria-label="Cambia entre tema claro y oscuro">
+        <svg aria-hidden="true"><use href="#i-moon"></use></svg>
+      </button>
+    </div>
+  </header>
+  <nav class="pagines" aria-label="Páginas">
+    <a href="./"><svg aria-hidden="true"><use href="#i-cloud-sun"></use></svg>El tiempo</a>
+    <a href="sortir.html"><svg aria-hidden="true"><use href="#i-door-open"></use></svg>Si sales</a>
+    <a href="consultes.html"><svg aria-hidden="true"><use href="#i-message-square-text"></use></svg>Consultas</a>
+  </nav>
+
+  <main class="contingut ajuda">
+    <p class="entrada novetat"><span class="nou">Nuevo:</span> ahora puedes recibir los avisos del tiempo en Montflorit directamente en el móvil o en el ordenador, como las notificaciones de cualquier aplicación, sin Telegram ni ninguna cuenta.</p>
+
+    <section class="opcio push" aria-label="Avisos en este dispositivo">
+      <div class="info">
+        <h2><svg class="icona-titol" aria-hidden="true"><use href="#i-bell-ring"></use></svg>Avisos en este dispositivo</h2>
+        <p id="push-iphone" class="avis" hidden>En el iPhone y en el iPad, primero hay que añadir esta web a la pantalla de inicio: en Safari, toca el botón de compartir y «Añadir a pantalla de inicio», con la opción de abrirla como aplicación activada. Después ábrela desde el icono nuevo y vuelve a esta página.</p>
+        <p id="push-no" class="avis" hidden>Este navegador no puede recibir avisos. Pruébalo con Chrome, Firefox, Edge o Safari actualizados.</p>
+        <p id="push-instala" class="nota" hidden>En el móvil, mejor añade esta web a la pantalla de inicio (en el menú del navegador): así los avisos no se desactivan solos si hace tiempo que no la abres.</p>
+        <form id="push" class="push-tria" hidden></form>
+        <p id="push-estat" class="nota" aria-live="polite"></p>
+      </div>
+    </section>
+
+    <section class="opcio telegram" aria-label="También en Telegram">
+      <div class="info">
+        <h2><img src="../img/telegram/canal.webp" width="56" height="56" alt=""> También en Telegram</h2>
+        <p>Si usas Telegram, tienes un canal igual para todo el mundo y un bot en el que eliges tú qué recibes.</p>
+        <p><a class="boto" href="telegram.html">Cómo hacerlo en Telegram</a></p>
+      </div>
+    </section>
+
+    <p class="nota">Los avisos los calcula un programa y son orientativos, no oficiales; los de la riera, además, están en pruebas. Sigue siempre a Protección Civil y al Ayuntamiento.</p>
+    <p class="nota">De este dispositivo solo se guarda la dirección anónima que da el navegador para enviarle notificaciones y lo que eliges; «Desactivar» lo borra. Las notificaciones pasan por el servicio de tu navegador (Google, Apple, Mozilla o Microsoft), como las de cualquier web.</p>
+  </main>
+
+  <footer class="peu">
+    <p><a id="versio" href="https://github.com/meteo-montflorit/meteo-local/releases" target="_blank" rel="noopener">versión —</a> · <a href="fonts.html">Fuentes y créditos</a></p>
+    <p>© 2026 <a href="https://bilateria.org" target="_blank" rel="noopener">Juan José de Haro</a> · Contenidos <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.es" target="_blank" rel="noopener">CC BY-SA 4.0</a> · Código <a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noopener">AGPL v3</a></p>
+    <p>Hecho con IA (Claude Code, octubre de 2026), <a href="https://jjdeharo.github.io/miae/?nivel=4" target="_blank" rel="noopener">nivel 4 del MIAE</a>.</p>
+  </footer>
+
+  <script src="../es.js"></script>
+  <script src="../comu.js"></script>
+  <script src="../avisos.js"></script>
+</body>
+</html>

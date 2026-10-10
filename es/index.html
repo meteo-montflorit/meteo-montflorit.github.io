@@ -1,0 +1,130 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<html lang="es" data-theme="light" data-lloc="Montflorit" data-estacio="la estación particular" data-arrel="../" data-dades="montflorit.json" data-notes="https://github.com/meteo-montflorit/meteo-local/releases/tag/v3.57.0">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="El tiempo ahora en Montflorit (Cerdanyola del Vallès) y la previsión hora a hora para las próximas 24 horas.">
+  <title>El tiempo en Montflorit</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 14.9A7 7 0 1 1 15.7 8h1.8a4.5 4.5 0 0 1 2.5 8.2'/%3E%3Cpath d='M16 14v6M8 14v6M12 16v6'/%3E%3C/svg%3E">
+  <script>
+    // Tema abans de pintar, perquè no parpellegi: el del sistema, si no s'ha triat.
+    try {
+      const triat = localStorage.getItem('meteo.fosc');
+      const fosc = triat === null ? matchMedia('(prefers-color-scheme: dark)').matches : triat === '1';
+      document.documentElement.dataset.theme = fosc ? 'dark' : 'light';
+    } catch (_) {}
+  </script>
+  <link rel="manifest" href="../manifest.webmanifest">
+  <link rel="apple-touch-icon" href="../icones/apple-touch-icon.png">
+  <meta name="theme-color" content="#1d4ed8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#12161c" media="(prefers-color-scheme: dark)">
+  <link rel="stylesheet" href="../estil.css">
+  <link rel="alternate" hreflang="ca" href="https://meteo-montflorit.github.io/">
+  <link rel="alternate" hreflang="es" href="https://meteo-montflorit.github.io/es/">
+  <link rel="alternate" hreflang="x-default" href="https://meteo-montflorit.github.io/">
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <!-- Icones de Lucide (ISC) -->
+    <symbol id="i-bell-ring" viewBox="0 0 24 24"><path d="M10.268 21a2 2 0 0 0 3.464 0M22 8c0-2.3-.8-4.3-2-6"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326M4 2C2.8 3.7 2 5.7 2 8"/></symbol>
+    <symbol id="i-circle-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></symbol>
+    <symbol id="i-languages" viewBox="0 0 24 24"><path d="m5 8 6 6M4 14l6-6 2-3M2 5h12M7 2h1m14 20-5-10-5 10M14 18h6"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" style="stroke:var(--ic-sol,currentColor);fill:var(--ic-sol-fons,none)"/><path d="M12 2v2M12 20v2m-7.07-17.07 1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" style="stroke:var(--ic-sol,currentColor)"/></symbol>
+    <symbol id="i-thermometer" viewBox="0 0 24 24"><path d="M14 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/></symbol>
+    <symbol id="i-umbrella" viewBox="0 0 24 24"><path d="M12 13v7a2 2 0 0 0 4 0M12 2v2" style="stroke:var(--ic-aigua,currentColor)"/><path d="M20.992 13a1 1 0 0 0 .97-1.274 10.284 10.284 0 0 0-19.923 0A1 1 0 0 0 3 13z" style="stroke:var(--ic-aigua,currentColor);fill:var(--ic-aigua-fons,none)"/></symbol>
+    <symbol id="i-umbrella-off" viewBox="0 0 24 24"><path d="M12 13v7a2 2 0 0 0 4 0M12 2v2"/><path d="M18.656 13h2.336a1 1 0 0 0 .97-1.274 10.284 10.284 0 0 0-12.07-7.51M2 2l20 20"/><path d="M5.961 5.957a10.28 10.28 0 0 0-3.922 5.769A1 1 0 0 0 3 13h10"/></symbol>
+    <symbol id="i-cloud-rain" viewBox="0 0 24 24"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" style="stroke:var(--ic-nuvol,currentColor);fill:var(--ic-nuvol-fons,none)"/><path d="M16 14v6M8 14v6M12 16v6" style="stroke:var(--ic-aigua,currentColor)"/></symbol>
+    <symbol id="i-droplets" viewBox="0 0 24 24"><path d="M7 16.3c2.2 0 4-1.83 4-4.05 0-1.16-.57-2.26-1.71-3.19S7.29 6.75 7 5.3c-.29 1.45-1.14 2.84-2.29 3.76S3 11.1 3 12.25c0 2.22 1.8 4.05 4 4.05z" style="stroke:var(--ic-aigua,currentColor);fill:var(--ic-aigua-fons,none)"/><path d="M12.56 6.6A10.97 10.97 0 0 0 14 3.02c.5 2.5 2 4.9 4 6.5s3 3.5 3 5.5a6.98 6.98 0 0 1-11.91 4.97" style="stroke:var(--ic-aigua,currentColor)"/></symbol>
+    <symbol id="i-gauge" viewBox="0 0 24 24"><path d="m12 14 4-4M3.34 19a10 10 0 1 1 17.32 0"/></symbol>
+    <symbol id="i-wind" viewBox="0 0 24 24"><path d="M12.8 19.6A2 2 0 1 0 14 16H2M17.5 8a2.5 2.5 0 1 1 2 4H2M9.8 4.4A2 2 0 1 1 11 8H2"/></symbol>
+    <symbol id="i-moon-cel" viewBox="0 0 24 24"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" style="stroke:var(--ic-lluna,currentColor);fill:var(--ic-lluna-fons,none)"/></symbol>
+    <symbol id="i-cloud-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" style="stroke:none;fill:var(--ic-sol-fons,none)"/><path d="M12 2v2m-7.07.93 1.41 1.41M20 12h2m-2.93-7.07-1.41 1.41M15.947 12.65a4 4 0 0 0-5.925-4.128" style="stroke:var(--ic-sol,currentColor)"/><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z" style="stroke:var(--ic-nuvol,currentColor);fill:var(--ic-nuvol-fons,none)"/></symbol>
+    <symbol id="i-cloud-moon" viewBox="0 0 24 24"><path d="M18.376 14.512a6 6 0 0 0 3.461-4.127c.148-.625-.659-.97-1.248-.714a4 4 0 0 1-5.259-5.26c.255-.589-.09-1.395-.716-1.248a6 6 0 0 0-4.594 5.36" style="stroke:var(--ic-lluna,currentColor);fill:var(--ic-lluna-fons,none)"/><path d="M13 16a3 3 0 0 1 0 6H7a5 5 0 1 1 4.9-6z" style="stroke:var(--ic-nuvol,currentColor);fill:var(--ic-nuvol-fons,none)"/></symbol>
+    <symbol id="i-chevrons-up-down" viewBox="0 0 24 24"><path d="m7 15 5 5 5-5"/><path d="m7 9 5-5 5 5"/></symbol>
+    <symbol id="i-chevrons-down-up" viewBox="0 0 24 24"><path d="m7 20 5-5 5 5"/><path d="m7 4 5 5 5-5"/></symbol>
+    <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" style="stroke:var(--ic-nuvol,currentColor);fill:var(--ic-nuvol-fons,none)"/></symbol>
+    <symbol id="i-cloudy" viewBox="0 0 24 24"><path d="M21.832 9A3 3 0 0 0 19 7h-2.207a5.5 5.5 0 0 0-10.72.61" style="stroke:var(--ic-nuvol,currentColor);fill:var(--ic-nuvol-fons,none)"/><path d="M17.5 12a1 1 0 1 1 0 9H9.006a7 7 0 1 1 6.702-9z" style="stroke:var(--ic-nuvol,currentColor);fill:var(--ic-nuvol-fons,none)"/></symbol>
+    <symbol id="i-cloud-fog" viewBox="0 0 24 24"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" style="stroke:var(--ic-nuvol,currentColor);fill:var(--ic-nuvol-fons,none)"/><path d="M16 17H7m10 4H9" style="stroke:var(--ic-nuvol,currentColor)"/></symbol>
+    <symbol id="i-cloud-drizzle" viewBox="0 0 24 24"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" style="stroke:var(--ic-nuvol,currentColor);fill:var(--ic-nuvol-fons,none)"/><path d="M8 19v1m0-6v1m8 4v1m0-6v1m-4 6v1m0-6v1" style="stroke:var(--ic-aigua,currentColor)"/></symbol>
+    <symbol id="i-cloud-rain-wind" viewBox="0 0 24 24"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" style="stroke:var(--ic-nuvol,currentColor);fill:var(--ic-nuvol-fons,none)"/><path d="M9.2 22l3-7M9 13l-3 7m11-7-3 7" style="stroke:var(--ic-aigua,currentColor)"/></symbol>
+    <symbol id="i-cloud-lightning" viewBox="0 0 24 24"><path d="M6 16.326A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 .5 8.973" style="stroke:var(--ic-nuvol,currentColor);fill:var(--ic-nuvol-fons,none)"/><path d="m13 12-3 5h4l-3 5" style="stroke:var(--ic-sol,currentColor)"/></symbol>
+    <symbol id="i-cloud-sun-rain" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" style="stroke:none;fill:var(--ic-sol-fons,none)"/><path d="M12 2v2m-7.07.93 1.41 1.41M20 12h2m-2.93-7.07-1.41 1.41M15.947 12.65a4 4 0 0 0-5.925-4.128" style="stroke:var(--ic-sol,currentColor)"/><path d="M3 20a5 5 0 1 1 8.9-4H13a3 3 0 0 1 2 5.24" style="stroke:var(--ic-nuvol,currentColor);fill:var(--ic-nuvol-fons,none)"/><path d="M11 20v2m-4-3v2" style="stroke:var(--ic-aigua,currentColor)"/></symbol>
+    <symbol id="i-cloud-moon-rain" viewBox="0 0 24 24"><path d="M18.376 14.512a6 6 0 0 0 3.461-4.127c.148-.625-.659-.97-1.248-.714a4 4 0 0 1-5.259-5.26c.255-.589-.09-1.395-.716-1.248a6 6 0 0 0-4.594 5.36" style="stroke:var(--ic-lluna,currentColor);fill:var(--ic-lluna-fons,none)"/><path d="M3 20a5 5 0 1 1 8.9-4H13a3 3 0 0 1 2 5.24" style="stroke:var(--ic-nuvol,currentColor);fill:var(--ic-nuvol-fons,none)"/><path d="M11 20v2M7 19v2" style="stroke:var(--ic-aigua,currentColor)"/></symbol>
+    <symbol id="i-cloud-snow" viewBox="0 0 24 24"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" style="stroke:var(--ic-nuvol,currentColor);fill:var(--ic-nuvol-fons,none)"/><path d="M8 15h.01M8 19h.01M12 17h.01M12 21h.01M16 15h.01M16 19h.01" style="stroke:var(--ic-neu,currentColor)"/></symbol>
+    <symbol id="i-cloud-hail" viewBox="0 0 24 24"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" style="stroke:var(--ic-nuvol,currentColor);fill:var(--ic-nuvol-fons,none)"/><path d="M16 14v2M8 14v2M12 16v2" style="stroke:var(--ic-aigua,currentColor)"/><path d="M16 20h.01M8 20h.01M12 22h.01" style="stroke:var(--ic-neu,currentColor)"/></symbol>
+    <symbol id="i-snowflake" viewBox="0 0 24 24"><path d="m10 20-1.25-2.5L6 18M10 4 8.75 6.5 6 6m8 14 1.25-2.5L18 18m-4-14 1.25 2.5L18 6m-1 15-3-6h-4m7-12-3 6 1.5 3M2 12h6.5L10 9m10 1-1.5 2 1.5 2m2-2h-6.5L14 15M4 10l1.5 2L4 14m3 7 3-6-1.5-3M7 3l3 6h4" style="stroke:var(--ic-neu,currentColor)"/></symbol>
+    <symbol id="i-thermometer-sun" viewBox="0 0 24 24"><path d="M12 9a4 4 0 0 0-2 7.5M12 3v2m-5.4 13.4-1.4 1.4M20 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0ZM4 13H2m4.34-5.66L4.93 5.93"/></symbol>
+    <symbol id="i-thermometer-snowflake" viewBox="0 0 24 24"><path d="M2 12h10M9 4v16m-6-11 3 3-3 3m9-6L9 9 6 6m0 12 3-3 1.5 1.5M20 4v10.54a4 4 0 1 1-4 0V4a2 2 0 0 1 4 0Z"/></symbol>
+    <symbol id="i-radar" viewBox="0 0 24 24"><path d="M19.07 4.93A10 10 0 0 0 6.99 3.34M4 6h.01M2.29 9.62A10 10 0 1 0 21.31 8.35M16.24 7.76A6 6 0 1 0 8.23 16.67M12 18h.01M17.99 11.66A6 6 0 0 1 15.77 16.67"/><circle cx="12" cy="12" r="2"/><path d="m13.41 10.59 5.66-5.66"/></symbol>
+    <symbol id="i-triangle-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3M12 9v4M12 17h.01"/></symbol>
+    <symbol id="i-door-open" viewBox="0 0 24 24"><path d="M10 21H2M10 3H7a2 2 0 0 0-2 2v16M14 12h.01M22 21h-3"/><path d="M19 21V5a2 2 0 0 0-1.675-1.974l-6.163-1.013A1 1 0 0 0 10 3v18a1 1 0 0 0 1.124.992z"/></symbol>
+    <symbol id="i-message-square-text" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2zM13 8H7M17 12H7"/></symbol>
+  </svg>
+
+  <header class="cap">
+    <div>
+      <h1>El tiempo en Montflorit</h1>
+      <p class="ruta">La predicción del tiempo del barrio, alertas y qué hay que saber si sales, en Cerdanyola del Vallès.</p>
+    </div>
+    <div class="cap-botons">
+      <nav class="idiomes" aria-label="Idioma"><svg aria-hidden="true"><use href="#i-languages"></use></svg><a href="../" lang="ca" hreflang="ca" title="Català" aria-label="Català">CA</a><span lang="es" aria-current="page" title="Castellano" aria-label="Castellano">ES</span></nav>
+      <a class="boto-icona" href="com-funciona.html" title="Cómo funciona" aria-label="Cómo funciona"><svg aria-hidden="true"><use href="#i-circle-help"></use></svg></a>
+      <a class="boto-icona boto-avisos" href="avisos.html" title="Avisos en el móvil" aria-label="Avisos en el móvil"><svg aria-hidden="true"><use href="#i-bell-ring"></use></svg></a>
+      <button type="button" id="btn-fosc" class="boto-icona" title="Cambia entre tema claro y oscuro" aria-label="Cambia entre tema claro y oscuro">
+        <svg aria-hidden="true"><use href="#i-moon"></use></svg>
+      </button>
+    </div>
+  </header>
+  <div class="barra">
+    <nav class="pagines" aria-label="Páginas">
+      <a href="./" aria-current="page"><svg aria-hidden="true"><use href="#i-cloud-sun"></use></svg>El tiempo</a>
+      <a href="sortir.html"><svg aria-hidden="true"><use href="#i-door-open"></use></svg>Si sales</a>
+      <a href="consultes.html"><svg aria-hidden="true"><use href="#i-message-square-text"></use></svg>Consultas</a>
+    </nav>
+  </div>
+
+  <main>
+    <p id="horari" class="horari"></p>
+    <p id="avis-dades" class="avis" hidden></p>
+    <div id="avisos" aria-live="polite"></div>
+    <div id="casa">
+      <p class="carregant">Cargando la previsión…</p>
+    </div>
+
+    <details class="com">
+      <summary>De dónde sale</summary>
+      <ul>
+        <li><strong>Ahora:</strong> la temperatura, la humedad, la presión (reducida al nivel del mar) y la lluvia, de una estación particular del barrio, que marca la lluvia al minuto pero a veces no detecta la lluvia débil: si la marca, llueve, y también si la marca alguna de las tres estaciones vecinas de la red de Weather Underground que se leen cada cinco minutos; el viento, de la estación de Meteocat de Sant Cugat, por medias horas, porque el anemómetro de la estación no funciona bien.</li>
+        <li><strong>Mañana, tarde y noche:</strong> la probabilidad de lluvia más alta de las horas del tramo, los milímetros sumados, la temperatura mínima y máxima y, solo si se dan, tormenta, lluvia fuerte (40&nbsp;mm en una hora) o torrencial (80), nieve, rachas de 70&nbsp;km/h, calor (36&nbsp;°C) o helada (0&nbsp;°C). Junto a la temperatura, la diferencia con las mismas horas del día anterior: para los tramos de hoy, lo que midió la estación ayer; para los de mañana, hoy. Se compara la máxima de día y la mínima de noche, y se dice la cifra a partir de 2&nbsp;°C, porque la previsión se equivoca en un grado, más o menos.</li>
+        <li><strong>Temperatura, cielo y viento:</strong> el modelo AROME de Météo-France, a 1,5 km, completado con ARPEGE cuando hace falta. La temperatura se corrige con lo que ha medido la estación particular desde octubre de 2025: el modelo suele dar más calor, sobre todo de noche. En las primeras horas también se tiene en cuenta cuánto se equivoca el modelo ahora mismo. Así, en semanas que no se habían usado para ajustarla, el error medio baja de 1,5 a 1,0&nbsp;°C, y en la hora siguiente, de 1,4 a 0,8&nbsp;°C. Cada día se comprueba si el registro propio acierta más y, solo si es así, se cambia.</li>
+        <li><strong>Lluvia:</strong> la más alta de las que dan los tres modelos más detallados (AROME, AROME a 1,5 km e ICON-EU). Es la que caería si llueve; si lloverá, lo dice la probabilidad.</li>
+        <li><strong>Probabilidad:</strong> la de lluvia (0,2 mm o más en la hora), calculada con lo que pasó de verdad cuando los tres modelos decían lo mismo (cuánta lluvia daba cada uno y cuántos coincidían): en Sabadell y Sant Cugat desde 2024 y, cuando haya bastantes datos, en Montflorit. Comprobada con todo ese tiempo, en semanas que no se habían usado para ajustarla: cuando decía un 15&nbsp;%, llovió el 15&nbsp;% de las horas; cuando decía un 40&nbsp;%, el 38&nbsp;%. Cada día se comprueba si el registro propio acierta más y, solo si es así, se cambia. La nota de debajo de la tabla dice de dónde sale.</li>
+        <li><strong>Cielo:</strong> dice «lluvia» cuando es más probable que llueva que no (un 50&nbsp;% o más) y «posible lluvia» a partir del 20&nbsp;%. Por debajo, solo las nubes; si algún modelo pone lluvia, como mínimo nubes. Las palabras son las del manual de estilo de Meteocat: despejado, poco, nuboso, muy nuboso y cubierto, por octavos de cielo tapado; lluvia débil, moderada, fuerte o torrencial según los milímetros de la hora (6, 40 y 80); y nieve, lluvia engelante, tormenta con granizo o niebla según el tipo de tiempo que da el modelo.</li>
+        <li><strong>La lluvia que nadie ve:</strong> entre una de cada ocho y una de cada cuatro horas de lluvia llegaron cuando la probabilidad era de menos del 5&nbsp;%. Un porcentaje bajo no es un cero.</li>
+        <li><strong>Si ahora llueve</strong>, las cuatro primeras horas no bajan de lo que pasó en casos parecidos: entre 2024 y 2026, en Sabadell y Sant Cugat, después de una hora con 1 mm o más siguió lloviendo la hora siguiente el 78&nbsp;% de las veces, y dos horas después, el 56&nbsp;%. Estas cifras llevan un asterisco.</li>
+        <li><strong>Radar:</strong> la lluvia que ve ahora el radar (el de RainViewer o el de Meteocat: cada día se comprueba cuál de los dos ha acertado más en Montflorit el último mes y se usa ese; ahora, RainViewer), llevada hacia delante hasta dos horas con el movimiento que calcula Meteocat. Si da más que los modelos, las dos primeras horas le hacen caso y llevan una cruz (†). No rebaja nunca la previsión: la lluvia que aún no se ha formado no sale en el radar. Cuando llueve, dice también a qué hora pararía, «en entrenamiento»: aprende sola con la lluvia real de la estación particular. Si no ve lluvia que se acerque, la franja del radar solo sale cuando la previsión la da para las dos horas siguientes.</li>
+        <li><strong>Si los modelos no aciertan</strong> (en las últimas tres horas ha llovido mucho más de lo que preveían), la página lo dice.</li>
+        <li><strong>Avisos:</strong> los de la AEMET para el Vallès (Prelitoral de Barcelona), con una barra del color del nivel junto a las horas que cubren, y, arriba del todo, los planes de Protección Civil por inundaciones, viento, nieve, olas de calor o de frío y contaminación, con la franja del color de la fase: gris la prealerta, naranja la alerta y roja la emergencia. El «?» explica cada fase. Un plan en prealerta o alerta no sale si hace más de 24 horas del último comunicado y la AEMET no tiene ningún aviso por lluvia o tormentas para las próximas 24 horas: quiere decir que se mantiene por la recuperación tras un temporal, no por el tiempo que hará.</li>
+        <li><strong>Incendios y Plan Alfa:</strong> los incendios de vegetación forestal en curso a menos de 5&nbsp;km, según Bombers de la Generalitat, y el nivel del Plan Alfa de Cerdanyola cuando es 3 o 4, que restringe el acceso a los espacios forestales, según los Agents Rurals.</li>
+        <li><strong>Riesgo previsto:</strong> sale cuando lo que miden las estaciones o lo que prevé esta página llega a los umbrales de aviso de la AEMET para el Vallès: 20&nbsp;mm de lluvia en una hora o 60 en doce, rachas de 70&nbsp;km/h, 36&nbsp;°C, −4&nbsp;°C o 2&nbsp;cm de nieve (amarillo); el naranja y el rojo, con umbrales más altos. No depende de si la AEMET ha emitido un aviso.</li>
+      </ul>
+      <p>Se actualiza cada 15 minutos; con avisos, Protección Civil activada o lluvia cerca, cada 6 minutos, justo después de cada imagen nueva del radar de Meteocat. Si tienes la página abierta, se pone al día sola.</p>
+      <p>Cada fila es una hora: «10–11» quiere decir de las 10 a las 11. La temperatura es la media de la de las 10 y la de las 11; el viento, el de las 11.</p>
+    </details>
+
+    <p class="enllacos"><a href="https://www.meteo.cat/observacions/radar" target="_blank" rel="noopener">Radar de Meteocat</a> · <a href="https://www.rainviewer.com/map.html?loc=41.482,2.135,9&amp;layer=radar" target="_blank" rel="noopener">Radar de RainViewer</a></p>
+  </main>
+
+  <footer class="peu">
+    <p><a id="versio" href="https://github.com/meteo-montflorit/meteo-local/releases" target="_blank" rel="noopener">versión —</a> · <a href="fonts.html">Fuentes y créditos</a></p>
+    <p>© 2026 <a href="https://bilateria.org" target="_blank" rel="noopener">Juan José de Haro</a> · Contenidos <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.es" target="_blank" rel="noopener">CC BY-SA 4.0</a> · Código <a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noopener">AGPL v3</a></p>
+    <p>Hecho con IA (Claude Code, octubre de 2026), <a href="https://jjdeharo.github.io/miae/?nivel=4" target="_blank" rel="noopener">nivel 4 del MIAE</a>.</p>
+  </footer>
+
+  <script src="../es.js"></script>
+  <script src="../comu.js"></script>
+  <script src="../casa.js"></script>
+</body>
+</html>

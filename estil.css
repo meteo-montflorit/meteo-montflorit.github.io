@@ -1,0 +1,775 @@
+/* SPDX-License-Identifier: AGPL-3.0-or-later */
+
+:root {
+  --fons: #f6f7f9;
+  --superficie: #ffffff;
+  --text: #1c2430;
+  --suau: #566173;
+  --vora: #dde2e8;
+  --enllac: #1d4ed8;
+  --verd: #15803d;          /* el que va bé */
+  --verd-fons: #e8f6ec;
+  --verd-text: #166534;     /* el verd damunt del seu fons, amb més contrast */
+  --compte: #a15c00;
+  --compte-fons: #fdf3e1;
+  --vermell: #b91c1c;       /* el que no */
+  --vermell-fons: #fdeceb;
+  --taronja-text: #c2410c;  /* el títol d'un avís taronja */
+  --bot: #15803d;          /* el verd de la icona del bot de Telegram */
+  /* Els colors del cel a les icones del temps (ADR 0063): cada peça amb el
+     seu color real; contorn amb contrast de 3:1 o més sobre la targeta. */
+  --c-sol: #c76f00;
+  --c-sol-fons: #fcd34d;
+  --c-nuvol: #64748b;
+  --c-nuvol-fons: #e2e8f0;
+  --c-aigua: #2563eb;
+  --c-aigua-fons: #dbeafe;
+  --c-aigua-text: #1e40af;  /* el text de pluja, també damunt la barra de probabilitat */
+  --c-neu: #0284c7;
+  --c-lluna: #5b61b8;
+  --c-lluna-fons: #e0e7ff;
+  --c-maxima: #b91c1c;
+  --c-minima: #1d4ed8;
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --fons: #12161c;
+  --superficie: #1b2129;
+  --text: #e8ecf1;
+  --suau: #a3adbb;
+  --vora: #2e3743;
+  --enllac: #8ab4ff;
+  --verd: #4ade80;
+  --verd-fons: #15291d;
+  --verd-text: #4ade80;
+  --compte: #fbbf24;
+  --compte-fons: #2e2412;
+  --vermell: #f87171;
+  --vermell-fons: #331a1a;
+  --taronja-text: #fdba74;
+  --bot: #4ade80;
+  --c-sol: #fbbf24;
+  --c-sol-fons: #a16207;
+  --c-nuvol: #94a3b8;
+  --c-nuvol-fons: #334155;
+  --c-aigua: #60a5fa;
+  --c-aigua-fons: #1e3a5f;
+  --c-aigua-text: #93c5fd;
+  --c-neu: #7dd3fc;
+  --c-lluna: #a5b4fc;
+  --c-lluna-fons: #3b3f6b;
+  --c-maxima: #f87171;
+  --c-minima: #93c5fd;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+/* On es pinten les icones del temps amb els colors del cel. Fora d'aquí (els
+   botons, les pestanyes) les mateixes icones queden del color del text. */
+.taula-hores, .tram-hores > summary, .dades-ara, .resum-linia {
+  --ic-sol: var(--c-sol); --ic-sol-fons: var(--c-sol-fons);
+  --ic-nuvol: var(--c-nuvol); --ic-nuvol-fons: var(--c-nuvol-fons);
+  --ic-aigua: var(--c-aigua); --ic-aigua-fons: var(--c-aigua-fons);
+  --ic-neu: var(--c-neu);
+  --ic-lluna: var(--c-lluna); --ic-lluna-fons: var(--c-lluna-fons);
+}
+/* Un fenomen destacat (tempesta, calor…) és un avís: la icona, sencera del color de l'avís. */
+.tram-hores .fenomen {
+  --ic-sol: initial; --ic-sol-fons: initial; --ic-nuvol: initial; --ic-nuvol-fons: initial;
+  --ic-aigua: initial; --ic-aigua-fons: initial; --ic-neu: initial; --ic-lluna: initial; --ic-lluna-fons: initial;
+}
+.temp-max { color: var(--c-maxima); }
+.temp-min { color: var(--c-minima); }
+
+body {
+  margin: 0 auto;
+  max-width: 60rem;
+  padding: 1rem 1rem 2rem;
+  background: var(--fons);
+  color: var(--text);
+  font: 1rem/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+a { color: var(--enllac); }
+
+.cap {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  column-gap: 1rem;
+  align-items: center;
+}
+/* La línia de sota el títol, a tota l'amplada: al mòbil, al costat dels
+   botons, quedava en una columna estreta i llarga. */
+.cap > div:first-child { display: contents; }
+.cap h1 { grid-column: 1; grid-row: 1; }
+.cap .ruta { grid-column: 1 / -1; grid-row: 2; }
+.cap-botons { grid-column: 2; grid-row: 1; }
+/* Al mòbil la botonera no deixa lloc al títol: va en una fila a sobre. */
+@media (max-width: 30rem) {
+  .cap { grid-template-columns: 1fr; row-gap: .6rem; }
+  .cap-botons { grid-column: 1; justify-self: end; }
+  .cap h1 { grid-row: 2; }
+  .cap .ruta { grid-row: 3; }
+}
+
+h1 { margin: 0; font-size: 1.6rem; line-height: 1.2; }
+.ruta { margin: .2rem 0 0; color: var(--suau); }
+
+.boto-icona {
+  flex: none;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: grid;
+  place-items: center;
+  border: 1px solid var(--vora);
+  border-radius: .5rem;
+  background: var(--superficie);
+  color: var(--text);
+  cursor: pointer;
+}
+.cap-botons { flex: none; display: flex; gap: .5rem; }
+/* Les dues llengües, la triada com la pestanya activa del menú. */
+.idiomes {
+  display: flex;
+  align-items: center;
+  gap: .15rem;
+  height: 2.5rem;
+  padding: 0 .3rem 0 .55rem;
+  border: 1px solid var(--vora);
+  border-radius: .5rem;
+  background: var(--superficie);
+}
+.idiomes svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  margin-right: .2rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.idiomes a, .idiomes span {
+  padding: .2rem .45rem;
+  border-radius: .35rem;
+  font-size: .9rem;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--text);
+  text-decoration: none;
+}
+.idiomes a:hover { background: var(--vora); }
+/* El que està triat, amb el blau de la web, com els botons de l'ajuda (ADR 0063). */
+.idiomes [aria-current="page"] { background: var(--enllac); color: var(--fons); }
+.boto-icona svg {
+  width: 1.25rem;
+  height: 1.25rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+:focus-visible { outline: 3px solid var(--enllac); outline-offset: 2px; }
+
+.targeta {
+  background: var(--superficie);
+  border: 1px solid var(--vora);
+  border-left: .45rem solid var(--color);
+  border-radius: .6rem;
+  padding: .8rem 1rem;
+}
+.veredicte {
+  margin: .1rem 0 0;
+  font-size: 1.8rem;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--color);
+}
+.decisio { margin-top: 1rem; padding: 1rem 1.2rem; }
+.decisio .data { margin: 0; font-size: 1rem; color: var(--suau); font-weight: 600; }
+.decisio .data::first-letter { text-transform: uppercase; }
+.decisio .veredicte { font-size: 2.4rem; }
+.veredicte .vehicle {
+  width: 1.15em;
+  height: 1.15em;
+  margin-right: .3em;
+  vertical-align: -.2em;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.nota { margin: 0; color: var(--suau); font-size: .9rem; }
+.horari { margin: .2rem 0 .7rem; font-size: .9rem; color: var(--suau); }
+.horari strong { color: var(--text); }
+/* El mode en una línia pròpia, amb el «?»; les hores, a sota (ADR 0010). */
+.horari .mode, .horari .hores { display: block; }
+.horari .ajuda-fase { margin-left: .4rem; }
+.horari .sense-tall { white-space: nowrap; }
+/* El nom del mode, en una etiqueta del seu color: verd el normal, ambre el de vigilància. */
+.horari .mode-nom { display: inline-block; padding: 0 .5rem; border-radius: 999px; font-weight: 600; }
+.horari .mode-nom.normal { color: var(--verd-text); background: var(--verd-fons); }
+.horari .mode-nom.vigilancia { color: var(--compte); background: var(--compte-fons); }
+.horari:empty { display: none; }
+
+.perque {
+  margin: 1.4rem 0 .5rem;
+  font-size: .8rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+  color: var(--suau);
+}
+.avis {
+  margin: 1rem 0 0;
+  padding: .6rem .8rem;
+  border-radius: .5rem;
+  background: var(--compte-fons);
+  border: 1px solid var(--compte);
+}
+
+.carregant { color: var(--suau); }
+
+.com {
+  margin-top: 1.6rem;
+  background: var(--superficie);
+  border: 1px solid var(--vora);
+  border-radius: .6rem;
+  padding: .6rem 1rem;
+}
+.com summary { cursor: pointer; font-weight: 600; }
+.com ol { padding-left: 1.3rem; }
+.com li { margin-bottom: .3rem; }
+
+.enllacos { margin: 1rem 0 0; }
+.enllacos a { white-space: nowrap; }
+
+.peu {
+  margin-top: 2rem;
+  padding-top: .8rem;
+  border-top: 1px solid var(--vora);
+  color: var(--suau);
+  font-size: .85rem;
+}
+.peu p { margin: .2rem 0; }
+
+.visualment-amagat {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.contingut h2 { font-size: 1.1rem; margin: 1.4rem 0 .4rem; }
+
+/* Navegació entre les pàgines, sempre al mateix lloc. */
+.barra { margin: .8rem 0 0; }
+.barra .pagines { margin: 0; }
+/* «Avisos al mòbil», la campana de la botonera; a la seva pàgina, marcada. */
+.boto-avisos { position: relative; }
+.boto-avisos[aria-current="page"] { background: var(--enllac); color: var(--fons); border-color: var(--enllac); }
+/* «Nou!» damunt la campana, mentre la pàgina és nova (comu.js). */
+.xip-nou { position: absolute; top: -.55rem; right: -.6rem; padding: .05rem .4rem; border-radius: 999px;
+  background: var(--enllac); color: var(--fons); font-size: .7rem; font-weight: 700; line-height: 1.4;
+  white-space: nowrap; pointer-events: none; }
+.pagines { display: flex; gap: .4rem; margin: .8rem 0 0; flex-wrap: wrap; }
+.pagines a {
+  padding: .3rem .8rem;
+  border: 1px solid var(--vora);
+  border-radius: 999px;
+  text-decoration: none;
+  color: var(--text);
+  background: var(--superficie);
+}
+.pagines a[aria-current="page"] { background: var(--enllac); color: var(--fons); border-color: var(--enllac); }
+.pagines a { display: inline-flex; align-items: center; gap: .4rem; }
+.pagines svg {
+  width: 1.1rem;
+  height: 1.1rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Pàgina de casa */
+.targeta.ara { --color: var(--text); border-left: 1px solid var(--vora); }
+.targeta.ara .vehicle { color: var(--suau); }
+.targeta.fora { --color: var(--suau); }
+.previsio { margin-top: 1rem; }
+.taula-contenidor { overflow-x: auto; }
+.taula-hores { width: 100%; border-collapse: collapse; font-size: .95rem; background: var(--superficie); border-radius: .6rem; }
+.taula-hores th, .taula-hores td { padding: .35rem .35rem; text-align: left; border-bottom: 1px solid var(--vora); white-space: nowrap; }
+.taula-hores thead th { font-size: .8rem; color: var(--suau); white-space: normal; vertical-align: bottom; }
+.taula-hores .num { text-align: right; font-variant-numeric: tabular-nums; }
+.taula-hores th.hora { font-weight: 600; }
+.taula-hores tr.amb-pluja td.cel { color: var(--c-aigua-text); font-weight: 600; }
+.taula-hores tr.pluja-possible td.cel { color: var(--c-aigua-text); }
+/* La probabilitat porta una barra darrere del número; el número ja ho diu.
+   Amb el blau de la pluja de les icones, i el número en blau des de «possible»
+   (20 %) i en negreta des de «pluja» (50 %), com el cel de la fila (ADR 0063). */
+.taula-hores td.prob { background: linear-gradient(to left, color-mix(in srgb, var(--c-aigua) 30%, transparent) var(--prob, 0%), transparent var(--prob, 0%)); }
+.taula-hores tr.pluja-possible td.prob { color: var(--c-aigua-text); }
+.taula-hores tr.amb-pluja td.prob { color: var(--c-aigua-text); font-weight: 600; }
+@media (max-width: 380px) {
+  .taula-hores { font-size: .88rem; }
+  .taula-hores th, .taula-hores td { padding: .3rem .25rem; }
+}
+
+/* Dades d'ara, cadascuna amb la seva icona. */
+.dades-ara {
+  list-style: none;
+  margin: .3rem 0 .2rem;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: .35rem 1.2rem;
+  font-size: 1.05rem;
+}
+.dades-ara li { display: flex; align-items: center; gap: .4rem; }
+.dades-ara svg, .titol-risc svg {
+  width: 1.3em;
+  height: 1.3em;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.dades-ara svg { color: var(--suau); }
+
+/* Previsió per trams del dia (matí, tarda i nit), cadascun plegable amb el
+   resum a la capçalera. Les columnes, amb la mateixa amplada a tots els trams. */
+.tram-hores { margin: .5rem 0 0; border: 1px solid var(--vora); border-radius: .6rem; background: var(--superficie); }
+.tram-hores > summary { cursor: pointer; padding: .5rem .7rem; font-size: .95rem; line-height: 1.6; }
+.tram-hores > summary > * { margin-right: .6rem; }
+.tram-hores[open] > summary { border-bottom: 1px solid var(--vora); }
+.tram-hores .quan { color: var(--suau); margin-left: -.4rem; }
+.tram-hores .dada { display: inline-flex; align-items: center; gap: .3rem; white-space: nowrap; vertical-align: middle; }
+.tram-hores summary svg { width: 1.15em; height: 1.15em; flex: none; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; color: var(--suau); }
+.tram-hores .fenomen { color: var(--compte); font-weight: 600; }
+.tram-hores .fenomen svg { color: var(--compte); }
+.tram-hores .taula-hores { table-layout: fixed; min-width: 19rem; border-radius: 0 0 .6rem .6rem; }
+.tram-hores tbody tr:last-child > * { border-bottom: 0; }
+.tram-hores .cel-text { white-space: normal; }
+.taula-hores .c-hora { width: 3.4em; }
+.taula-hores .c-col-avis { width: 1.4rem; }
+.taula-hores .c-temp { width: 2.4em; }
+.taula-hores .c-mm { width: 3.6em; }
+.taula-hores .c-prob { width: 3.6em; }
+.taula-hores .c-vent { width: 4.4em; }
+/* Al mòbil, cada columna de xifres amb el que ocupa de veritat (mesurat a
+   360 px) i el cel amb la resta; el text que no hi cap al costat de la icona
+   passa a sota (Juanjo, 09-10-2026: «en movil se mezcla la prevision con la
+   temperatura»). */
+@media (max-width: 639px) {
+  .taula-hores .c-hora { width: 3.3em; }
+  .taula-hores .c-temp { width: 1.9em; }
+  .taula-hores .c-mm { width: 3.5em; }
+  .taula-hores .c-prob { width: 3.4em; }
+  .taula-hores .c-vent { width: 4.1em; }
+}
+@media (max-width: 400px) {
+  .tram-hores .cel-text { flex-wrap: wrap; row-gap: .1rem; }
+}
+/* Cabecera repetida a cada tram: baixa i discreta. */
+.tram-hores .taula-hores thead th { padding-top: .25rem; padding-bottom: .25rem; }
+/* En pantalla ampla, el repartiment de la taula d'abans: l'hora, el cel amb
+   el que sobra i quatre columnes de xifres iguals; la capçalera en una línia. */
+@media (min-width: 640px) {
+  .taula-hores .c-hora { width: 13%; }
+  .taula-hores .c-temp, .taula-hores .c-mm, .taula-hores .c-prob, .taula-hores .c-vent { width: 13%; }
+  .tram-hores .taula-hores thead th { white-space: nowrap; }
+}
+.cap-previsio { display: flex; align-items: flex-end; justify-content: space-between; gap: .6rem; margin: 1.4rem 0 .5rem; }
+.cap-previsio .perque { margin: 0; }
+.boto-tot {
+  display: inline-flex; align-items: center; gap: .3rem; padding: .25rem .7rem;
+  border: 1px solid var(--vora); border-radius: 999px; background: var(--superficie);
+  color: var(--text); font: inherit; font-size: .85rem; cursor: pointer;
+}
+.boto-tot:focus-visible { outline: 2px solid var(--enllac); outline-offset: 2px; }
+.boto-tot svg { width: 1rem; height: 1rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.com.notes-taula { margin-top: .5rem; }
+
+/* Radar a «Ara a casa»: franja pròpia, amb el color del que diu. */
+.radar-ara {
+  --to: var(--suau);
+  display: flex;
+  align-items: center;
+  gap: .7rem;
+  margin: .8rem 0 .1rem;
+  padding: .6rem .8rem;
+  border-radius: .5rem;
+  border-left: .3rem solid var(--to);
+  background: color-mix(in srgb, var(--to) 10%, var(--superficie));
+}
+.radar-ara.possible { --to: var(--enllac); }
+.radar-ara.arriba { --to: var(--compte); background: var(--compte-fons); }
+.radar-ara svg {
+  width: 1.9rem;
+  height: 1.9rem;
+  flex: none;
+  fill: none;
+  stroke: var(--to);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.radar-text { margin: 0; font-size: 1.15rem; line-height: 1.3; }
+.radar-detall { margin: .1rem 0 0; font-size: .9rem; color: var(--suau); }
+/* L'hora de final, mentre aprèn (ADR 0049): la marca, discreta, amb
+   l'explicació en passar-hi per sobre. */
+.radar-text .en-proves { font-size: .85rem; color: var(--suau); cursor: help; }
+
+/* Risc previst, amb el color del nivell de l'AEMET. */
+.risc-previst { --nivell: #ca8a04; border-color: var(--nivell); border-left-width: .4rem; }
+.risc-previst.taronja { --nivell: #ea580c; }
+.risc-previst.vermell { --nivell: var(--vermell); background: var(--vermell-fons); }
+.titol-risc { display: flex; align-items: center; gap: .4rem; margin: 0; font-weight: 700; }
+.titol-risc svg { color: var(--nivell); }
+.risc-previst ul { margin: .3rem 0 0; padding-left: 1.3rem; }
+.risc-previst .detall { color: var(--suau); font-size: .9rem; }
+
+/* Avisos actius: un sol bloc, cada avís amb la franja del seu nivell. */
+.avisos-actius {
+  margin: 1rem 0 0;
+  padding: .6rem .9rem .7rem;
+  background: var(--superficie);
+  border: 1px solid var(--vora);
+  border-radius: .6rem;
+}
+.avisos-actius .seccio { margin: 0 0 .4rem; }
+.avis-item { margin: 0; padding: .15rem 0 .15rem .7rem; border-left: .3rem solid var(--nivell, var(--compte)); }
+.avis-item + .avis-item, .avis-item + .risc-previst, .risc-previst + .avis-item { margin-top: .5rem; }
+.avis-item strong { color: var(--nivell-text, inherit); }
+.smp-linia { display: block; margin-top: .3rem; }
+.avis-item.groc { --nivell: #eab308; }
+.avis-item.taronja { --nivell: #fb923c; --nivell-text: var(--taronja-text); }
+.avis-item.vermell { --nivell: var(--vermell); --nivell-text: var(--vermell); }
+/* Prealerta de Protecció Civil: el pla no està activat, sense alarma (ADR 0051). */
+.avis-item.prealerta { --nivell: var(--suau); }
+/* El «?» de la fase i el que vol dir, a sota (ADR 0051). */
+.ajuda-fase {
+  margin-left: .3rem; width: 1.4rem; height: 1.4rem; padding: 0; border: 1px solid var(--vora);
+  border-radius: 50%; background: var(--superficie); color: var(--text); font: inherit; font-size: .8rem;
+  font-weight: 700; line-height: 1; cursor: pointer; vertical-align: .1em;
+}
+.sentit-fase { display: block; margin-top: .2rem; color: var(--suau); font-size: .9rem; }
+.sentit-fase[hidden] { display: none; }
+.avisos-actius .risc-previst { margin-top: .5rem; }
+.avis-item.compte { --nivell: var(--compte); }
+/* Nota de Protecció Civil sobre els veredictes de «Si surts». */
+.avis-pc { border-color: var(--vermell); background: var(--vermell-fons); }
+.taula-hores td.cel { white-space: normal; }
+.cel-text { display: inline-flex; align-items: center; gap: .3rem; white-space: nowrap; }
+.cel-text svg {
+  width: 1.25em;
+  height: 1.25em;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  color: var(--suau);
+}
+@media (max-width: 430px) {
+  .taula-hores th, .taula-hores td { padding-left: .25rem; padding-right: .25rem; }
+}
+@media (max-width: 380px) {
+  .cel-text { white-space: normal; }
+}
+@media (max-width: 340px) {
+  .taula-hores { font-size: .82rem; }
+  .taula-hores th, .taula-hores td { padding-left: .2rem; padding-right: .2rem; }
+  .taula-hores .col-avis { width: 1.25rem; min-width: 1.25rem; padding: 0; }
+  .taula-hores .c-col-avis { width: 1.25rem; }
+}
+/* Avisos de l'AEMET: barra vertical entre l'hora i el cel. */
+.taula-hores .col-avis { width: 1.4rem; min-width: 1.4rem; padding: 0; }
+.taula-hores td.franja-avis { position: relative; }
+.barra-avis {
+  position: absolute;
+  inset: .3rem .2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: .3rem;
+  background: #facc15;
+  color: #1c2430;
+  font-size: .7rem;
+  font-weight: 600;
+  white-space: nowrap;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+.franja-avis.taronja .barra-avis { background: #fb923c; }
+.franja-avis.vermell .barra-avis { background: #ef4444; color: #fff; }
+
+/* Pàgina «Si surts» (ADR 0029) */
+.hores-sortida { display: flex; flex-wrap: wrap; gap: .6rem 1.2rem; margin: 1rem 0 .2rem; font-size: 1.05rem; }
+.hores-sortida select {
+  font: inherit;
+  padding: .2rem .4rem;
+  margin-left: .3rem;
+  border: 1px solid var(--vora);
+  border-radius: .4rem;
+  background: var(--superficie);
+  color: var(--text);
+}
+.mitjans, .llista-trens { margin: .8rem 0 0; padding: 0; list-style: none; display: grid; gap: .5rem; }
+/* En pantalla ampla, les fitxes en columnes: la pàgina no creix tant. */
+.mitjans { grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); }
+.triats { display: flex; flex-wrap: wrap; gap: .4rem; margin: .8rem 0 0; padding: 0; border: 0; }
+.hores-sortida[hidden], .triats[hidden] { display: none; }
+.xip {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .3rem .7rem;
+  border: 1px solid var(--vora);
+  border-radius: 999px;
+  background: var(--superficie);
+  color: var(--suau);
+  cursor: pointer;
+  user-select: none;
+}
+.xip input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+/* Marcat, en verd; desmarcat, en vermell. La marca ✓ o ✕ diu el mateix sense
+   dependre del color. */
+.xip:has(input:checked) { color: var(--text); border-color: var(--verd); background: var(--verd-fons); }
+.xip:has(input:not(:checked)) { color: var(--text); border-color: var(--vermell); background: var(--vermell-fons); }
+.xip span::after { margin-left: .35rem; font-weight: 700; }
+.xip:has(input:checked) span::after { content: "✓"; color: var(--verd); }
+.xip:has(input:not(:checked)) span::after { content: "✕"; color: var(--vermell); }
+.explica-triats { margin: .35rem 0 0; }
+/* «Consultes» (ADR 0054): una opció a la vegada, marcada com la pestanya
+   activa del menú; el text del bot, a sota, en una targeta. */
+.opcions { display: flex; flex-wrap: wrap; gap: .4rem; margin: 1rem 0 0; padding: 0; border: 0; }
+.opcions[hidden] { display: none; }
+.consulta-opcio {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .3rem .8rem;
+  border: 1px solid var(--vora);
+  border-radius: 999px;
+  background: var(--superficie);
+  color: var(--text);
+  cursor: pointer;
+  user-select: none;
+}
+.consulta-opcio input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.consulta-opcio:has(input:checked) { background: var(--enllac); color: var(--fons); border-color: var(--enllac); }
+.consulta-opcio:has(input:focus-visible) { outline: 2px solid var(--enllac); outline-offset: 2px; }
+.consulta-opcio svg { width: 1.1rem; height: 1.1rem; fill: none; stroke: currentColor; stroke-width: 2;
+  stroke-linecap: round; stroke-linejoin: round; flex: none; }
+.consulta { margin: 1rem 0 0; padding: .8rem 1rem; border: 1px solid var(--vora); border-radius: .5rem;
+  background: var(--superficie); line-height: 1.5; overflow-wrap: anywhere; }
+.consulta p { margin: 0; }
+.consulta p + p { margin-top: .7rem; }
+/* El pol·len: una barra de 4 trams del color del nivell, com l'escala del PIA
+   (verd baix, groc mig, taronja alt, vermell màxim; els colors dels avisos). */
+.pollen-grup { margin: .9rem 0 .3rem; font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; color: var(--suau); }
+.pollen { margin: 0; padding: 0; list-style: none; display: grid; gap: .3rem; }
+.pollen-fila { display: grid; grid-template-columns: minmax(7rem, 1fr) auto 3.6rem 1rem; align-items: center; gap: .6rem; }
+.pollen-barra { display: inline-grid; grid-template-columns: repeat(4, 1.6rem); gap: 3px; }
+.pollen-barra span { height: .7rem; border-radius: 2px; background: var(--vora); }
+.nivell-1 .pollen-barra .ple { background: var(--verd); }
+.nivell-2 .pollen-barra .ple { background: #eab308; }
+.nivell-3 .pollen-barra .ple { background: #fb923c; }
+.nivell-4 .pollen-barra .ple { background: #ef4444; }
+.pollen-nivell { font-size: .9rem; color: var(--suau); }
+.pollen-tendencia { font-weight: 700; text-align: center; }
+.pollen-nuls { margin-top: .4rem !important; font-size: .9rem; color: var(--suau); }
+.consulta .pollen ~ .nota:last-child { margin-top: .9rem; }
+/* L'aire: l'escala europea amb els colors oficials de l'Agència Europea de
+   Medi Ambient, on és ara, cada contaminant i cada hora del dia. */
+.aire-bona { --c: #50f0e6; } .aire-raonablement_bona { --c: #50ccaa; } .aire-regular { --c: #f0e641; }
+.aire-desfavorable { --c: #ff5050; } .aire-molt_desfavorable { --c: #960032; } .aire-extremadament_desfavorable { --c: #7d2181; }
+.aire-ara { margin-top: .5rem !important; display: flex; align-items: center; gap: .5rem; flex-wrap: wrap; }
+.aire-xip { padding: .15rem .6rem; border-radius: 999px; background: var(--c); color: #111; font-weight: 600; }
+.aire-molt_desfavorable.aire-xip, .aire-extremadament_desfavorable.aire-xip { color: #fff; }
+.aire-escala { position: relative; display: grid; grid-template-columns: repeat(5, 1fr) .9fr; gap: 2px; margin: .7rem 0 .2rem; }
+.aire-escala > span:not(.aire-marca) { height: .6rem; background: var(--c); }
+.aire-escala > span:first-child { border-radius: 3px 0 0 3px; }
+.aire-escala > span:nth-child(6) { border-radius: 0 3px 3px 0; }
+.aire-marca { position: absolute; top: -.35rem; width: .2rem; height: 1.3rem; margin-left: -.1rem; background: var(--text); border-radius: 2px; }
+/* Nom i nivell a dalt i la barra a sota, a tota l'amplada: al mòbil, en una
+   sola fila el nom quedava en una columna de dues lletres (Juanjo, 09-10-2026). */
+.aire-fila { display: grid; grid-template-columns: 1fr auto; grid-template-areas: "nom nivell" "barra barra";
+  align-items: baseline; column-gap: .6rem; row-gap: .2rem; }
+.aire-fila .pollen-nom { grid-area: nom; }
+.aire-fila .pollen-nivell { grid-area: nivell; text-align: right; }
+.aire-fila .aire-barra { grid-area: barra; }
+.aire-fila + .aire-fila { margin-top: .3rem; }
+.aire-barra { height: .7rem; border-radius: 3px; background: var(--vora); overflow: hidden; }
+.aire-barra span { display: block; height: 100%; background: var(--c); }
+.aire-hores { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(1.2rem, 1fr); gap: 2px; }
+.aire-hora { display: grid; gap: .15rem; text-align: center; font-size: .75rem; color: var(--suau); }
+.aire-hora > span:first-child { height: 1.2rem; background: var(--c); border-radius: 2px; }
+/* El sol: el dia de 0 a 24 h, la llum entre la sortida i la posta, i ara. */
+.sol-dia { position: relative; height: .9rem; margin: .7rem 0 .2rem; border-radius: 999px; background: #1e293b; overflow: hidden; }
+.sol-llum { position: absolute; top: 0; bottom: 0; background: linear-gradient(90deg, #fb923c, #fde047 20%, #fde047 80%, #fb923c); }
+.sol-ara { position: absolute; top: 0; bottom: 0; width: .2rem; margin-left: -.1rem; background: var(--text); }
+:root[data-theme="dark"] .sol-ara { background: #fff; }
+.sol-hores, .sol-sobre { position: relative; height: 1.3rem; font-size: .9rem; color: var(--suau); }
+.sol-sobre { margin-top: .6rem; height: 1.2rem; }
+.sol-sobre + .sol-dia { margin-top: .15rem; }
+.sol-hores span, .sol-sobre span { position: absolute; top: 0; white-space: nowrap; }
+.sol-punt { transform: translateX(-50%); }
+.sol-extrem { left: 0; }
+.sol-extrem.sol-fi { left: auto; right: 0; }
+.sol-hores + p { margin-top: .5rem !important; }
+.sol-uv { line-height: 1.9; }
+.uv-xip { display: inline-block; padding: 0 .6rem; border-radius: 999px; font-weight: 700; color: #111; line-height: 1.6; }
+.uv-baix { background: #3ea72d; color: #fff; } .uv-moderat { background: #fff300; } .uv-alt { background: #f18b00; }
+.uv-molt-alt { background: #e53210; color: #fff; } .uv-extrem { background: #b567a4; color: #fff; }
+/* Avui i demà: la icona, només si el text en porta (ADR 0065), a la seva columna. */
+.resum-linia { display: grid; grid-template-columns: 1.3rem 1fr; gap: .5rem; align-items: start; }
+.resum-linia:first-child { display: block; }
+.resum-linia svg, .resum-buit { width: 1.15rem; height: 1.15rem; margin-top: .15rem; fill: none; stroke: var(--suau);
+  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.consulta .resum-linia + .resum-linia { margin-top: .45rem; }
+.icona-cel { display: inline-flex; }
+/* Els nivells, un cercle amb els colors de les barres del pol·len i de l'UV. */
+.punt-nivell { display: inline-block; width: .8rem; height: .8rem; border-radius: 50%; background: var(--c);
+  vertical-align: -.05rem; margin-right: .3rem; }
+.resum-linia > .punt-nivell { margin: .35rem auto 0; }
+.punt-nul { --c: transparent; box-shadow: inset 0 0 0 1.5px var(--suau); }
+.punt-baix { --c: var(--verd); } .punt-mig { --c: #eab308; } .punt-alt { --c: #fb923c; }
+.punt-maxim { --c: #ef4444; } .punt-extrem { --c: #b567a4; }
+.consulta .llista-trens { margin-top: .6rem; }
+.xip:has(input:focus-visible) { outline: 2px solid var(--enllac); outline-offset: 2px; }
+.xip svg, .mitja-nom svg {
+  width: 1.15rem;
+  height: 1.15rem;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex: none;
+}
+.mitja-nom { display: inline-flex; align-items: center; gap: .4rem; }
+.mitja, .tren {
+  --color: var(--verd);
+  padding: .55rem .8rem;
+  border: 1px solid var(--vora);
+  border-left: .35rem solid var(--color);
+  border-radius: .5rem;
+  background: var(--superficie);
+}
+.mitja.compte, .tren.compte { --color: var(--compte); }
+.mitja.no, .tren.no { --color: var(--vermell); }
+.tren.neutre, .mitja.neutre { --color: var(--suau); }
+.mitja p, .tren p { margin: 0; }
+.mitja-cap, .tren-cap { display: flex; flex-wrap: wrap; gap: .2rem .6rem; align-items: baseline; }
+.mitja-nom, .tren-linia { font-weight: 600; }
+.mitja-nivell, .tren-estat { margin-left: auto; color: var(--color); font-weight: 600; }
+.tren-estacio { color: var(--suau); font-size: .9rem; }
+.mitja-motiu { font-size: .95rem; }
+.mitja-roba { font-size: .9rem; color: var(--suau); margin-top: .15rem !important; }
+.consells { margin: .9rem 0 0; padding-left: 1.2rem; }
+.consells li { margin: .2rem 0; }
+.seccio { font-size: .8rem; text-transform: uppercase; letter-spacing: .05em; color: var(--suau); margin: 0; }
+.tren-avisos { margin-top: .3rem; font-size: .9rem; }
+.tren .tren-nota { margin-top: .3rem; font-size: .9rem; color: var(--suau); }
+.tren-avisos summary { cursor: pointer; color: var(--suau); }
+.tren-avisos p { margin: .3rem 0 0; }
+/* Trens i trànsit dins de la fitxa del mitjà, plegats (ADR 0029 i 0052). Obert,
+   la fitxa ocupa tota l'amplada per llegir-los bé. */
+.mitja-plec { margin-top: .4rem; font-size: .9rem; scroll-margin-top: 1rem; }
+.mitja-plec > summary { cursor: pointer; color: var(--enllac); }
+.mitja-plec .llista-trens { margin-top: .5rem; }
+.mitja-plec .tren { padding: .45rem .65rem; background: var(--fons); }
+.mitja-plec .nota { margin-top: .5rem; }
+.mitja:has(> .mitja-plec[open]) { grid-column: 1 / -1; }
+.tren .transit-detall { margin-top: .3rem; }
+
+/* El text dels avisos de l'AEMET, citat tal com el publica (ADR 0033). */
+.avis q, .avis-item q { quotes: "«" "»"; font-style: italic; }
+
+/* Pàgina «Avisos a Telegram» (ADR 0034): un bloc per al canal i un per al bot,
+   cadascun amb el seu color i els seus passos; a l'ordinador, els passos en fila. */
+.ajuda .entrada { font-size: 1.1rem; }
+.ajuda .opcio { display: grid; gap: 1rem; margin: 1rem 0; padding: .9rem 1rem; border: 1px solid var(--vora);
+  border-top: 5px solid var(--enllac); border-radius: .6rem; background: var(--superficie); }
+.ajuda .opcio.bot { border-top-color: var(--bot); }
+.ajuda .opcio h2 { margin: 0 0 .3rem; display: flex; align-items: center; gap: .6rem; font-size: 1.15rem; }
+.ajuda .opcio h2 img { width: 2.6rem; height: 2.6rem; border-radius: 50%; flex: none; }
+.ajuda .info p { margin: .3rem 0; }
+.ajuda .cerca { color: var(--suau); font-size: .92rem; }
+.ajuda .nom { white-space: nowrap; font-weight: 600; color: var(--text); }
+.ajuda .boto { display: inline-block; padding: .5rem 1rem; border-radius: 999px; background: var(--enllac); color: var(--fons); text-decoration: none; font-weight: 600; }
+.ajuda .boto.bot { background: var(--bot); }
+/* Pàgina «Avisos» (ADR 0048): les opcions dels avisos al navegador, una per
+   línia amb les mateixes caselles que «Si surts», i els botons de l'ajuda. */
+.ajuda button.boto { border: 0; font: inherit; font-weight: 600; cursor: pointer; }
+.ajuda .boto.secundari { background: transparent; color: var(--enllac); border: 1px solid var(--vora); }
+.ajuda .boto:focus-visible { outline: 2px solid var(--enllac); outline-offset: 2px; }
+.ajuda .opcio h2 .icona-titol { width: 2rem; height: 2rem; flex: none; fill: none; stroke: var(--enllac);
+  stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+/* Que no es confongui amb Telegram: la novetat, amb una franja de color i
+   la paraula «Nou» en el mateix color, no en negreta (Juanjo, 08-10-2026). */
+.ajuda .entrada.novetat { border-left: 5px solid var(--enllac); padding: .2rem 0 .2rem .8rem; }
+.ajuda .novetat .nou { color: var(--enllac); }
+.push-tria[hidden] { display: none; }
+.push-tipus { display: grid; justify-items: start; gap: .4rem; margin: .5rem 0 0; padding: 0; border: 0; }
+.push-tipus legend { padding: 0; margin-bottom: .3rem; font-weight: 600; }
+.push-resum { display: block; margin: .9rem 0 0; font-weight: 600; }
+.push-nit { margin-top: .6rem; }
+.push-resum select { font: inherit; font-weight: normal; padding: .2rem .4rem; margin-left: .3rem;
+  border: 1px solid var(--vora); border-radius: .4rem; background: var(--superficie); color: var(--text); }
+.push-botons { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1rem 0 .3rem; }
+#push-estat.error { color: var(--vermell); }
+.ajuda > p.nota + p.nota { margin-top: .5rem; }
+@media (min-width: 900px) {
+  /* Aquí no hi ha passos amb captures: cada bloc a tot l'ample. */
+  .ajuda .opcio.push .info, .ajuda .opcio.telegram .info { grid-column: 1 / -1; }
+}
+.ajuda .pas { display: grid; grid-template-columns: 2rem 1fr; gap: .2rem .6rem; align-items: start; align-content: start; }
+.ajuda .pas .num { width: 2rem; height: 2rem; border-radius: 50%; background: var(--enllac); color: var(--fons); display: grid; place-items: center; font-weight: 700; }
+.ajuda .bot .pas .num { background: var(--bot); }
+.ajuda .pas p { margin: .25rem 0 0; }
+.ajuda .pas a { grid-column: 2; }
+/* Les ordres de consulta del bot, a tota l'amplada sota els passos. */
+.ajuda .opcio .preguntes { grid-column: 1 / -1; margin: .6rem 0 0; }
+.ajuda .pas img { width: 100%; max-width: 260px; height: auto; border: 1px solid var(--vora); border-radius: .6rem; }
+@media (min-width: 900px) {
+  /* quatre columnes iguals als dos blocs: el canal explica a l'esquerra i els seus
+     dos passos cauen sobre els dos últims del bot; el bot explica a tot l'ample */
+  .ajuda .opcio { grid-template-columns: repeat(4, minmax(0, 1fr)); column-gap: 1.3rem; }
+  .ajuda .opcio.canal .info { grid-column: span 2; }
+  .ajuda .opcio.bot .info { grid-column: 1 / -1; }
+  .ajuda .info p:has(.boto) { display: inline-block; margin-right: 1rem; }
+  .ajuda .info .cerca { display: inline-block; }
+  /* el text a dalt i la captura a baix, totes a la mateixa altura */
+  .ajuda .pas { grid-template-columns: 1.6rem 1fr; grid-template-rows: 1fr auto; }
+  .ajuda .pas .num { width: 1.6rem; height: 1.6rem; font-size: .9rem; }
+  .ajuda .pas p { margin: 0 0 .4rem; }
+  .ajuda .pas a { grid-column: 1 / -1; }
+  /* petites: es poden ampliar amb un clic (visor de comu.js) */
+  .ajuda .pas img { max-width: 10.5rem; }
+}
+
+/* Visor d'imatges (comu.js): a l'ordinador, la captura a sobre de la pàgina, amb marge al voltant. */
+.visor { border: none; padding: 0; margin: 0; width: 100vw; height: 100vh; max-width: none; max-height: none;
+  background: rgb(0 0 0 / .78); }
+.visor[open] { display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.visor::backdrop { background: transparent; }
+.visor img { display: block; max-width: 88vw; max-height: 92vh; width: auto; height: auto; margin: 0 auto;
+  border-radius: .6rem; background: var(--superficie); }
+.visor-tanca { position: fixed; top: 1rem; right: 1rem; width: 2.75rem; height: 2.75rem; display: grid; place-items: center;
+  border: 1px solid var(--vora); border-radius: 50%; background: var(--superficie); color: var(--text); cursor: pointer; }
+.visor-tanca svg { width: 1.4rem; height: 1.4rem; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
