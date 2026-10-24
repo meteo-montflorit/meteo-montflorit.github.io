@@ -1,0 +1,141 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<html lang="ca" data-theme="light" data-dades="montflorit.json" data-notes="https://github.com/meteo-montflorit/meteo-local/releases/tag/v3.198.0">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Els avisos de perill a Montflorit (Cerdanyola del Vallès): els oficials, els incendis forestals de Collserola i els que hi hagi a 2 km o menys del barri i el risc de desbordament de la riera.">
+  <title>Avisos · Temps a Montflorit</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 14.9A7 7 0 1 1 15.7 8h1.8a4.5 4.5 0 0 1 2.5 8.2'/%3E%3Cpath d='M16 14v6M8 14v6M12 16v6'/%3E%3C/svg%3E">
+  <script>
+    // Tema abans de pintar, perquè no parpellegi: el del sistema, si no s'ha triat.
+    try {
+      const triat = localStorage.getItem('meteo.fosc');
+      const fosc = triat === null ? matchMedia('(prefers-color-scheme: dark)').matches : triat === '1';
+      document.documentElement.dataset.theme = fosc ? 'dark' : 'light';
+    } catch (_) {}
+  </script>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icones/apple-touch-icon.png">
+  <meta name="theme-color" content="#1d4ed8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#12161c" media="(prefers-color-scheme: dark)">
+  <link rel="stylesheet" href="estil.css">
+  <link rel="alternate" hreflang="ca" href="https://meteo-montflorit.github.io/perill.html">
+  <link rel="alternate" hreflang="es" href="https://meteo-montflorit.github.io/es/perill.html">
+  <link rel="alternate" hreflang="x-default" href="https://meteo-montflorit.github.io/perill.html">
+  <script>
+    try {
+      const triat = localStorage.getItem('meteo.idioma') || (navigator.languages || [navigator.language])
+        .map((l) => String(l || '').slice(0, 2).toLowerCase()).find((l) => l === 'ca' || l === 'es');
+      const altre = triat && triat !== document.documentElement.lang
+        && document.querySelector(`link[rel="alternate"][hreflang="${triat}"]`);
+      if (altre) location.replace(new URL(altre.href).pathname + location.search + location.hash);
+    } catch (_) {}
+  </script>
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Temps a Montflorit">
+  <meta property="og:title" content="Avisos · Temps a Montflorit">
+  <meta property="og:description" content="Els avisos de perill a Montflorit (Cerdanyola del Vallès): els oficials, els incendis forestals de Collserola i els que hi hagi a 2 km o menys del barri i el risc de desbordament de la riera.">
+  <meta property="og:url" content="https://meteo-montflorit.github.io/perill.html">
+  <meta property="og:locale" content="ca_ES">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:image" content="https://meteo-montflorit.github.io/img/compartir-capvespre-ca.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Temps a Montflorit">
+  <meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <!-- Icones de Lucide (ISC) -->
+    <symbol id="i-share-2" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98M15.41 6.51l-6.82 3.98"/></symbol>
+    <symbol id="i-circle-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2m-7.07-17.07 1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol>
+    <symbol id="i-cloud-sun" viewBox="0 0 24 24"><path d="M12 2v2m-7.07.93 1.41 1.41M20 12h2m-2.93-7.07-1.41 1.41M15.947 12.65a4 4 0 0 0-5.925-4.128"/><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"/></symbol>
+    <symbol id="i-door-open" viewBox="0 0 24 24"><path d="M10 21H2M10 3H7a2 2 0 0 0-2 2v16M14 12h.01M22 21h-3"/><path d="M19 21V5a2 2 0 0 0-1.675-1.974l-6.163-1.013A1 1 0 0 0 10 3v18a1 1 0 0 0 1.124.992z"/></symbol>
+    <symbol id="i-bell-ring" viewBox="0 0 24 24"><path d="M10.268 21a2 2 0 0 0 3.464 0M22 8c0-2.3-.8-4.3-2-6"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326M4 2C2.8 3.7 2 5.7 2 8"/></symbol>
+    <symbol id="i-waves" viewBox="0 0 24 24"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></symbol>
+    <symbol id="i-triangle-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3M12 9v4M12 17h.01"/></symbol>
+    <symbol id="i-message-square-text" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2zM13 8H7M17 12H7"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+  </svg>
+
+  <header class="cap">
+    <div>
+      <h1>Avisos</h1>
+      <p class="ruta">Montflorit, Cerdanyola del Vallès</p>
+    </div>
+    <div class="cap-botons">
+      <nav class="idiomes" aria-label="Idioma"><span lang="ca" aria-current="page" title="Català" aria-label="Català">CA</span><a href="es/perill.html" lang="es" hreflang="es" title="Castellano" aria-label="Castellano">ES</a></nav>
+      <button type="button" class="boto-icona boto-compartir" title="Comparteix aquesta pàgina" aria-label="Comparteix aquesta pàgina"><svg aria-hidden="true"><use href="#i-share-2"></use></svg></button>
+      <a class="boto-icona" href="com-funciona.html" title="Com funciona" aria-label="Com funciona"><svg aria-hidden="true"><use href="#i-circle-help"></use></svg></a>
+      <a class="boto-icona boto-avisos" href="avisos.html" title="Notificacions" aria-label="Notificacions"><svg aria-hidden="true"><use href="#i-bell-ring"></use></svg></a>
+      <button type="button" id="btn-fosc" class="boto-icona" title="Canvia entre tema clar i fosc" aria-label="Canvia entre tema clar i fosc">
+        <svg aria-hidden="true"><use href="#i-moon"></use></svg>
+      </button>
+    </div>
+  </header>
+  <div class="barra">
+    <nav class="pagines" aria-label="Pàgines">
+      <a href="./"><svg aria-hidden="true"><use href="#i-cloud-sun"></use></svg>Temps</a>
+      <a href="perill.html" aria-current="page"><svg aria-hidden="true"><use href="#i-triangle-alert"></use></svg>Avisos</a>
+      <a href="riera.html"><svg aria-hidden="true"><use href="#i-waves"></use></svg>Riera</a>
+      <a href="sortir.html"><svg aria-hidden="true"><use href="#i-door-open"></use></svg>Si surts</a>
+      <a href="consultes.html"><svg aria-hidden="true"><use href="#i-message-square-text"></use></svg>Consultes</a>
+    </nav>
+  </div>
+
+  <main class="contingut ajuda">
+    <p class="entrada novetat"><span class="nou">Nou:</span> els avisos de perill a Montflorit: els oficials de l'AEMET, de Meteocat i de Protecció Civil, els incendis forestals de Collserola i els que hi hagi a 2 km o menys del barri, el risc de desbordament de la riera de Sant Cugat i el temps extrem que calcula aquesta web.</p>
+    <p>Són els mateixos avisos que arriben al mòbil, a l'ordinador i a Telegram. Per rebre'ls al moment, <a href="avisos.html">activa les notificacions</a>.</p>
+    <p id="avis-dades" class="avis" hidden></p>
+    <section id="perill" class="perill" aria-live="polite">
+      <p class="carregant">Carregant…</p>
+    </section>
+    <details class="com com-avisos">
+      <summary>Com es decideixen els avisos</summary>
+      <details class="com">
+        <summary>Protecció Civil</summary>
+        <p>Els plans de la Generalitat que depenen del temps: inundacions (INUNCAT), vent (VENTCAT), neu (NEUCAT) i, del PROCICAT, onada de calor, onada de fred, contaminació i vent, quan afecten el Vallès o tot Catalunya. Surten en prealerta, alerta o emergència; la prealerta no avisa al mòbil. Un pla en prealerta o alerta sense cap avís del seu fenomen i sense comunicat en les darreres 24 hores no es mostra; l'emergència, sempre.</p>
+      </details>
+      <details class="com">
+        <summary>Meteocat</summary>
+        <p>Els avisos de situació meteorològica de perill del Servei Meteorològic de Catalunya per al Vallès Occidental, per fenomen (pluja, vent, neu, calor, fred, temps violent…) i amb el grau de perill: moderat, alt o molt alt. Avisa quan n'hi ha un de nou, quan puja de grau, quan s'hi afegeixen hores i quan s'acaba.</p>
+      </details>
+      <details class="com">
+        <summary>AEMET</summary>
+        <p>Els avisos de l'AEMET per al Prelitoral de Barcelona, només per al que Meteocat no cobreix, com les tempestes, la boira o un fenomen sense avís de Meteocat. Si Meteocat en té per al mateix fenomen, es mostra el seu.</p>
+      </details>
+      <details class="com">
+        <summary>Riera de Sant Cugat</summary>
+        <p>Avís orientatiu i no oficial, calculat per aquesta web amb la pluja de Sant Cugat i la que el radar veu venir. Llindars i detalls, a <a href="com-funciona.html#riera">Com funciona</a>.</p>
+      </details>
+      <details class="com">
+        <summary>Incendis forestals</summary>
+        <p>Qualsevol incendi forestal dins del parc de Collserola, també als nuclis que queden a dins (les Planes, Vallvidrera, Can Cerdà…), i qualsevol a 2&nbsp;km o menys del barri. Fons del mapa: ©&nbsp;col·laboradors d'OpenStreetMap.</p>
+        <p class="mapa-barri"><a class="amplia" href="img/incendis.webp" target="_blank"><img src="img/incendis.webp" width="1000" height="820" alt="Mapa de la zona on s'avisa dels incendis forestals: tot el parc de Collserola, de Molins de Rei a Montcada i Reixac i de Sant Cugat a Barcelona, i un cercle de 2 km al voltant de Montflorit que arriba al centre de Cerdanyola" loading="lazy"></a></p>
+      </details>
+      <details class="com">
+        <summary>Pla Alfa</summary>
+        <p>El nivell de risc d'incendi forestal dels Agents Rurals per a Cerdanyola, avui i demà, a partir del nivell 3, el que restringeix l'accés als espais forestals, i els tancaments que afecten Collserola.</p>
+      </details>
+      <details class="com">
+        <summary>Temps extrem</summary>
+        <p>Avisos propis quan les estacions o la previsió per a Montflorit passen els llindars dels avisos de perill de Meteocat per a Cerdanyola, encara que Meteocat no n'hagi donat cap. Els llindars, a <a href="com-funciona.html#temps-extrem">Com funciona</a>.</p>
+      </details>
+    </details>
+  </main>
+
+  <footer class="peu">
+    <p>No és una web oficial ni representa cap organisme públic.</p>
+    <p id="app-android" hidden><a href="https://play.google.com/store/apps/details?id=io.github.meteo_montflorit" target="_blank" rel="noopener">📱 Descarrega l'app per a Android (Google Play)</a></p>
+    <p><a id="versio" href="https://github.com/meteo-montflorit/meteo-local/releases" target="_blank" rel="noopener">versió —</a> · <a href="fonts.html">Fonts i crèdits</a> · <a href="privacitat.html">Privacitat</a></p>
+    <p>© 2026 <a href="https://bilateria.org" target="_blank" rel="noopener">Juan José de Haro</a> · Continguts <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ca" target="_blank" rel="noopener">CC BY-SA 4.0</a> · Codi <a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noopener">AGPL v3</a></p>
+    <p><a href="fonts.html#com-sha-fet">Fet amb IA</a> (Claude Code, octubre de 2026).</p>
+  </footer>
+
+  <script src="comu.js"></script>
+  <script src="perill.js"></script>
+</body>
+</html>
