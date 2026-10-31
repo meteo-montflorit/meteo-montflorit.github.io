@@ -1,0 +1,13 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "io.github.meteo_montflorit",
+      "sha256_cert_fingerprints": [
+        "1A:2C:CF:84:FB:3C:9D:48:54:E3:37:83:F0:51:C6:EA:4F:20:EF:4F:AC:E1:BA:E3:95:A5:21:9C:FA:AA:A6:69",
+        "69:15:02:12:F9:4C:08:DD:A2:B5:80:56:0F:31:F9:9E:B8:40:6F:D5:5F:D3:A0:AF:95:CD:C3:B9:85:74:8E:3A"
+      ]
+    }
+  }
+]

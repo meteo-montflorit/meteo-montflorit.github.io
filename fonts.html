@@ -1,0 +1,141 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<html lang="ca" data-theme="light" data-dades="montflorit.json" data-notes="https://github.com/meteo-montflorit/meteo-local/releases/tag/v3.207.1">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fonts i crèdits · Temps a Montflorit</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 14.9A7 7 0 1 1 15.7 8h1.8a4.5 4.5 0 0 1 2.5 8.2'/%3E%3Cpath d='M16 14v6M8 14v6M12 16v6'/%3E%3C/svg%3E">
+  <script>
+    try {
+      const triat = localStorage.getItem('meteo.fosc');
+      const fosc = triat === null ? matchMedia('(prefers-color-scheme: dark)').matches : triat === '1';
+      document.documentElement.dataset.theme = fosc ? 'dark' : 'light';
+    } catch (_) {}
+  </script>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icones/apple-touch-icon.png">
+  <meta name="theme-color" content="#1d4ed8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#12161c" media="(prefers-color-scheme: dark)">
+  <link rel="stylesheet" href="estil.css">
+  <link rel="alternate" hreflang="ca" href="https://meteo-montflorit.github.io/fonts.html">
+  <link rel="alternate" hreflang="es" href="https://meteo-montflorit.github.io/es/fonts.html">
+  <link rel="alternate" hreflang="x-default" href="https://meteo-montflorit.github.io/fonts.html">
+  <script>
+    try {
+      const triat = localStorage.getItem('meteo.idioma') || (navigator.languages || [navigator.language])
+        .map((l) => String(l || '').slice(0, 2).toLowerCase()).find((l) => l === 'ca' || l === 'es');
+      const altre = triat && triat !== document.documentElement.lang
+        && document.querySelector(`link[rel="alternate"][hreflang="${triat}"]`);
+      if (altre) location.replace(new URL(altre.href).pathname + location.search + location.hash);
+    } catch (_) {}
+  </script>
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Temps a Montflorit">
+  <meta property="og:title" content="Fonts i crèdits · Temps a Montflorit">
+  <meta property="og:url" content="https://meteo-montflorit.github.io/fonts.html">
+  <meta property="og:locale" content="ca_ES">
+  <meta property="og:locale:alternate" content="es_ES">
+  <meta property="og:image" content="https://meteo-montflorit.github.io/img/compartir-capvespre-ca.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Temps a Montflorit">
+  <meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <!-- Icones de Lucide (ISC) -->
+    <symbol id="i-bell-ring" viewBox="0 0 24 24"><path d="M10.268 21a2 2 0 0 0 3.464 0M22 8c0-2.3-.8-4.3-2-6"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326M4 2C2.8 3.7 2 5.7 2 8"/></symbol>
+    <symbol id="i-share-2" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98M15.41 6.51l-6.82 3.98"/></symbol>
+    <symbol id="i-circle-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2m-7.07-17.07 1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol>
+    <symbol id="i-cloud-sun" viewBox="0 0 24 24"><path d="M12 2v2m-7.07.93 1.41 1.41M20 12h2m-2.93-7.07-1.41 1.41M15.947 12.65a4 4 0 0 0-5.925-4.128"/><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"/></symbol>
+    <symbol id="i-door-open" viewBox="0 0 24 24"><path d="M10 21H2M10 3H7a2 2 0 0 0-2 2v16M14 12h.01M22 21h-3"/><path d="M19 21V5a2 2 0 0 0-1.675-1.974l-6.163-1.013A1 1 0 0 0 10 3v18a1 1 0 0 0 1.124.992z"/></symbol>
+    <symbol id="i-waves" viewBox="0 0 24 24"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></symbol>
+    <symbol id="i-triangle-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3M12 9v4M12 17h.01"/></symbol>
+    <symbol id="i-message-square-text" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2zM13 8H7M17 12H7"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+  </svg>
+
+  <header class="cap">
+    <div>
+      <h1>Fonts i crèdits</h1>
+      <p class="ruta">Montflorit, Cerdanyola del Vallès</p>
+    </div>
+    <div class="cap-botons">
+      <nav class="idiomes" aria-label="Idioma"><span lang="ca" aria-current="page" title="Català" aria-label="Català">CA</span><a href="es/fonts.html" lang="es" hreflang="es" title="Castellano" aria-label="Castellano">ES</a></nav>
+      <button type="button" class="boto-icona boto-compartir" title="Comparteix aquesta pàgina" aria-label="Comparteix aquesta pàgina"><svg aria-hidden="true"><use href="#i-share-2"></use></svg></button>
+      <a class="boto-icona" href="com-funciona.html" title="Com funciona" aria-label="Com funciona"><svg aria-hidden="true"><use href="#i-circle-help"></use></svg></a>
+      <a class="boto-icona boto-avisos" href="avisos.html" title="Notificacions" aria-label="Notificacions"><svg aria-hidden="true"><use href="#i-bell-ring"></use></svg></a>
+      <button type="button" id="btn-fosc" class="boto-icona" title="Canvia entre tema clar i fosc" aria-label="Canvia entre tema clar i fosc">
+        <svg aria-hidden="true"><use href="#i-moon"></use></svg>
+      </button>
+    </div>
+  </header>
+  <nav class="pagines" aria-label="Pàgines">
+    <a href="./"><svg aria-hidden="true"><use href="#i-cloud-sun"></use></svg>Temps</a>
+    <a href="perill.html"><svg aria-hidden="true"><use href="#i-triangle-alert"></use></svg>Avisos</a>
+    <a href="riera.html"><svg aria-hidden="true"><use href="#i-waves"></use></svg>Riera</a>
+    <a href="sortir.html"><svg aria-hidden="true"><use href="#i-door-open"></use></svg>Si surts</a>
+    <a href="consultes.html"><svg aria-hidden="true"><use href="#i-message-square-text"></use></svg>Consultes</a>
+  </nav>
+
+  <main class="contingut">
+    <h2>D'on surten les dades</h2>
+    <p>Temps a Montflorit no és una web oficial ni representa cap organisme públic ni hi està vinculada. Les dades dels organismes públics surten de les fonts que s'enllacen aquí, cadascuna a la seva pàgina oficial. Es reutilitzen segons les condicions de cada organisme (AEMET, Meteocat i Generalitat de Catalunya): sense alterar-les i citant-ne la font.</p>
+    <ul>
+      <li><strong>Avisos de l'AEMET:</strong> els de l'<a href="https://www.aemet.es/ca/" target="_blank" rel="noopener">AEMET</a>, a través de <a href="https://meteoalarm.org/" target="_blank" rel="noopener">Meteoalarm</a>, per als fenòmens i les hores que no cobreix Meteocat. Informació elaborada utilitzant, entre altres, l'obtinguda de l'Agència Estatal de Meteorologia (© AEMET).</li>
+      <li><strong>Radar:</strong> <a href="https://www.meteo.cat/observacions/radar" target="_blank" rel="noopener">composició de la XRAD i advecció del Servei Meteorològic de Catalunya</a> i, de reserva, <a href="https://www.rainviewer.com/" target="_blank" rel="noopener">RainViewer</a>, del seu servei gratuït per a projectes personals, educatius i comunitaris.</li>
+      <li><strong>Núvols observats:</strong> els informes meteorològics (METAR) de l'aeroport de Sabadell, del servei públic de l'<a href="https://aviationweather.gov/data/api/" target="_blank" rel="noopener">Aviation Weather Center</a> de la NOAA, cada mitja hora: quina part del cel tapa cada capa de núvols. Serveixen per al cel de l'hora en curs i per comprovar quins models encerten. No sempre hi surten els núvols alts.</li>
+      <li><strong>Estació particular:</strong> una estació pròpia del mateix barri, llegida amb l'<a href="https://doc.ecowitt.net/web/#/apiv3en?page_id=1" target="_blank" rel="noopener">API oficial d'Ecowitt</a>. Se'n fan servir la temperatura, la humitat, el punt de rosada i la pressió, reduïda al nivell del mar amb l'altitud del barri; la pluja, només quan en marca.</li>
+      <li><strong>Estacions de Meteocat:</strong> Sabadell (Parc Agrari) i Sant Cugat (CAR), de la <a href="https://www.meteo.cat/observacions/xema" target="_blank" rel="noopener">Xarxa d'Estacions Meteorològiques Automàtiques de Meteocat</a>, a la seva web o, si falla, al <a href="https://analisi.transparenciacatalunya.cat/d/nzvn-apee" target="_blank" rel="noopener">portal de dades obertes de la Generalitat</a>. El vent d'ara és, de moment, el de Sant Cugat, per mitges hores: l'anemòmetre de l'estació del barri no funciona bé. És provisional: quan hi hagi prou dies de vent per comprovar-ho, sortirà de les estacions veïnes.</li>
+      <li><strong>Estacions veïnes:</strong> quatre estacions particulars del barri i del voltant, una vora la riera i tres a la part alta, publicades a la xarxa d'estacions personals de <a href="https://www.wunderground.com/wundermap?lat=41.48&amp;lon=2.13&amp;zoom=14" target="_blank" rel="noopener">Weather Underground</a> (The Weather Company), llegides cada cinc minuts amb l'API que la xarxa dona a qui hi aporta una estació; l'estació del barri també s'hi publica. Amb l'estació del barri formen la xarxa d'on surten la pluja i la humitat (si alguna marca pluja, plou) i la diferència amb la part alta; per aprendre, una hora és plujosa si ho marca l'estació del barri o dues veïnes. Per a l'avís de la riera, a més, sis estacions particulars de Sant Cugat del Vallès de la mateixa xarxa, del centre i de la part alta de la conca. Dades de Weather Underground, per a ús personal i no comercial.</li>
+      <li><strong>Trens:</strong> els avisos de Rodalies, de la <a href="https://rodalies.gencat.cat/ca/inici/" target="_blank" rel="noopener">web de Rodalies de Catalunya</a> (Generalitat de Catalunya); la posició dels trens en temps real i, si la web de Rodalies no respon, els seus avisos, de <a href="https://data.renfe.com/" target="_blank" rel="noopener">Renfe</a> i de les <a href="https://dadesobertes.fgc.cat/" target="_blank" rel="noopener">dades obertes d'FGC</a>, totes dues amb llicència CC BY 4.0.</li>
+      <li><strong>Busos:</strong> l'horari, les hores de pas en temps real i els avisos de les línies CV1, CV4 i CV5, de les dades obertes de l'AMB (<a href="https://www.ambmobilitat.cat/" target="_blank" rel="noopener">AMB Mobilitat</a>), amb llicència CC BY 4.0 segons les seves <a href="https://www.amb.cat/web/area-metropolitana/dades-obertes/condicions-d-us" target="_blank" rel="noopener">condicions d'ús</a>; l'hora de les dades surt al peu de cada consulta.</li>
+      <li><strong>Talls de llum:</strong> les avaries i els treballs programats en curs que publica <a href="https://www.edistribucion.com/ca/averias.html" target="_blank" rel="noopener">e-distribució</a> (Endesa) al seu mapa, consultats automàticament; la zona és aproximada, perquè no en publica els carrers.</li>
+      <li><strong>Límits del barri:</strong> Cerdanyola no té una delimitació oficial de barris, com recorda la <a href="https://www.cerdanyola.cat/sites/default/files/fitxers/certificat_ple_marc._punt_21.pdf" target="_blank" rel="noopener">moció aprovada pel Ple el 26 de març del 2026</a>. Els de la web segueixen el mapa de barris del <a href="https://www.cerdanyola.cat/sites/default/files/placc_cerdanyola_del_valles_3-9-24.pdf" target="_blank" rel="noopener">Pla Local d'Adaptació al Canvi Climàtic</a> de l'Ajuntament (2023, figura 11), que surt del Pla Local d'Habitatge del 2021. Hi afegeixen el poblat ibèric de Ca n'Oliver, que l'<a href="https://cerdanyola.cat/la-ciutat/patrimoni" target="_blank" rel="noopener">Ajuntament</a> i el <a href="https://parcnaturalcollserola.cat/restarq/poblat-iberic-de-ca-noliver/" target="_blank" rel="noopener">Parc Natural de Collserola</a> situen al barri, i s'ajusten a mà sobre l'<a href="https://www.icgc.cat/ca/Geoinformacio-i-mapes/Geoinformacio-en-linia-Geoserveis/WMS-Ortoimatges/WMS-Ortofoto-Territorial" target="_blank" rel="noopener">ortofoto de l'ICGC</a> del 2025 perquè cap habitatge quedi partit. El contorn del poblat, el límit municipal amb què s'ha situat el mapa i el fons del <a href="com-funciona.html#barri">mapa dels límits</a> i del mapa de cada tall de llum, amb els noms dels carrers, són d'<a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> (© col·laboradors d'OpenStreetMap, llicència ODbL). Serveixen per triar els talls de llum de Montflorit.</li>
+      <li><strong>Trànsit:</strong> incidències en temps real del <a href="https://transit.gencat.cat/ca/informacio-viaria/estat-transit/" target="_blank" rel="noopener">Servei Català de Trànsit</a> (Generalitat de Catalunya, Departament d'Interior i Seguretat Pública), de les <a href="https://analisi.transparenciacatalunya.cat/d/uyam-bs37" target="_blank" rel="noopener">dades obertes de la Generalitat</a>, amb la <a href="https://web.gencat.cat/ca/generalitat/dades-indicadors/dades-obertes/llicencies" target="_blank" rel="noopener">llicència oberta d'ús d'informació de Catalunya</a>; l'hora de cada consulta surt al costat de les incidències.</li>
+      <li><strong>Pol·len:</strong> els nivells de la setmana a Bellaterra del <a href="https://aerobiologia.cat/pia/ca/forecast/bellaterra" target="_blank" rel="noopener">Punt d'Informació Aerobiològica de la UAB</a> (Xarxa Aerobiològica de Catalunya), amb la llicència <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.ca" target="_blank" rel="noopener">CC BY-NC-SA 4.0</a>, que també tenen aquí: no es poden fer servir amb finalitats comercials.</li>
+      <li><strong>Qualitat de l'aire:</strong> l'índex europeu de qualitat de l'aire del model europeu del <a href="https://atmosphere.copernicus.eu/" target="_blank" rel="noopener">Copernicus Atmosphere Monitoring Service (CAMS)</a>, a través d'<a href="https://open-meteo.com/en/docs/air-quality-api" target="_blank" rel="noopener">Open-Meteo</a>: és una previsió, no una mesura. Les mesures de les estacions són al web <a href="https://mediambient.gencat.cat/ca/05_ambits_dactuacio/atmosfera/qualitat_de_laire/vols-saber-que-respires/" target="_blank" rel="noopener">«Vols saber què respires?»</a> de la Generalitat.</li>
+      <li><strong>Plans de Protecció Civil:</strong> <a href="https://analisi.transparenciacatalunya.cat/d/wj9c-j6vf" target="_blank" rel="noopener">dades obertes de la Generalitat</a>, en temps real.</li>
+      <li><strong>Avisos de perill de Meteocat:</strong> els avisos de situació meteorològica de perill del <a href="https://www.meteo.cat/" target="_blank" rel="noopener">Servei Meteorològic de Catalunya (Meteocat)</a> per al Vallès Occidental, llegits a cada actualització de la seva web o, si falla, de la seva API, amb el meteor i el llindar tal com els publica i l'hora de l'emissió. Per a cada fenomen manen els de Meteocat.</li>
+      <li><strong>Previsions de Meteocat i de l'AEMET:</strong> la previsió per hores per a Cerdanyola de l'<a href="https://apidocs.meteocat.gencat.cat/" target="_blank" rel="noopener">API de Meteocat</a>, cada 3 hores, i la d'<a href="https://opendata.aemet.es/" target="_blank" rel="noopener">AEMET OpenData</a>, cada hora. Només serveixen per comparar-les amb la d'aquesta web a <a href="fiabilitat.html">Fiabilitat</a>.</li>
+      <li><strong>Incendis i Pla Alfa:</strong> actuacions en curs de <a href="https://interior.gencat.cat/ca/arees_dactuacio/bombers/actuacions-de-bombers/" target="_blank" rel="noopener">Bombers de la Generalitat</a>, nivell del <a href="https://interior.gencat.cat/ca/arees_dactuacio/agents-rurals/pla-alfa/" target="_blank" rel="noopener">Pla Alfa dels Agents Rurals</a> i el límit del <a href="https://parcnaturalcollserola.cat/" target="_blank" rel="noopener">Parc Natural de la Serra de Collserola</a>, del Consorci del parc, consultats automàticament.</li>
+      <li><strong>Models i simulacions:</strong> <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a> (dades CC BY 4.0), amb models de Météo-France (AROME i ARPEGE), del servei meteorològic alemany (ICON-EU i les seves 40 variants) i del <a href="https://www.ecmwf.int/" target="_blank" rel="noopener">Centre Europeu de Previsions Meteorològiques a Termini Mitjà</a> (ECMWF IFS, a 9&nbsp;km, i, per a la previsió de 7 dies, les 51 variants del seu conjunt) i, per als núvols, el GFS de l'<a href="https://www.noaa.gov/" target="_blank" rel="noopener">Administració Nacional Oceànica i Atmosfèrica dels Estats Units (NOAA)</a>.</li>
+    </ul>
+
+    <h2>Altres crèdits</h2>
+    <ul>
+      <li>Icones de <a href="https://lucide.dev/" target="_blank" rel="noopener">Lucide</a>, llicència ISC.</li>
+      <li>Lletra <a href="https://github.com/erikdkennedy/figtree" target="_blank" rel="noopener">Figtree</a>, d'Erik Kennedy, llicència SIL Open Font License 1.1.</li>
+      <li>Mapa de la zona dels incendis, a «Avisos»: fons de <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© col·laboradors d'OpenStreetMap</a> (ODbL) i límit del parc del <a href="https://parcnaturalcollserola.cat/" target="_blank" rel="noopener">Consorci del Parc Natural de la Serra de Collserola</a>.</li>
+      <li>Mapa del radar, a la portada: fons del <a href="https://www.icgc.cat/ca/Geoinformacio-i-mapes/Servei-de-mapa-base" target="_blank" rel="noopener">Mapa base estàndard gris</a> de l'<a href="https://www.icgc.cat/" target="_blank" rel="noopener">Institut Cartogràfic i Geològic de Catalunya</a> (© ICGC, llicència CC BY 4.0).</li>
+      <li>Dibuixos del cel de la portada de <a href="https://meteocons.com/" target="_blank" rel="noopener">Meteocons</a>, de Bas Milius, llicència MIT; els fons, propis.</li>
+      <li>La Lluna (les fases, la sortida i la posta), calculada amb <a href="https://github.com/cosinekitty/astronomy" target="_blank" rel="noopener">Astronomy Engine</a>, de Don Cross, llicència MIT; els dibuixos de la Lluna, propis.</li>
+      <li>La icona de la moto de «Si surts», de <a href="https://tabler.io/icons" target="_blank" rel="noopener">Tabler Icons</a>, llicència MIT.</li>
+    </ul>
+
+    <h2 id="com-sha-fet">Com s'ha fet</h2>
+    <p>La web s'ha programat amb IA (Claude Code): l'autor en dirigeix el contingut i el funcionament i en revisa el resultat a la pantalla, al mòbil i a l'ordinador. Els càlculs de la previsió i dels avisos els fa un programa, sense IA, i cada mètode nou es comprova amb les dades reals abans d'adoptar-lo. Una IA (Claude) revisa el que es publica i s'envia per trobar-hi contradiccions: només pot treure una línia falsa o caducada; qualsevol altre canvi el proposa a l'autor, que decideix.</p>
+
+    <h2>Codi font i decisions</h2>
+    <p>El codi font és a <a href="https://github.com/meteo-montflorit/meteo-local" target="_blank" rel="noopener">github.com/meteo-montflorit/meteo-local</a>, amb el <a href="https://github.com/meteo-montflorit/meteo-local/tree/main/docs/adr" target="_blank" rel="noopener">registre de decisions</a>: per què es va fer cada canvi i quan.</p>
+
+    <h2>Avís</h2>
+    <p>És una previsió calculada automàticament, no una previsió oficial. En cas de dubte, mana el que es vegi al cel i al radar.</p>
+    <p>Les dades dels serveis meteorològics, de Rodalies, de Renfe, d'FGC i de la resta de fonts d'aquesta pàgina es consulten automàticament per internet: l'autor no es fa responsable de la seva exactitud.</p>
+  </main>
+
+  <footer class="peu">
+    <p>No és una web oficial ni representa cap organisme públic.</p>
+    <p id="app-android" hidden><a href="https://play.google.com/store/apps/details?id=io.github.meteo_montflorit" target="_blank" rel="noopener">📱 Descarrega l'app per a Android (Google Play)</a></p>
+    <p><a id="versio" href="https://github.com/meteo-montflorit/meteo-local/releases" target="_blank" rel="noopener">versió —</a> · <a href="fonts.html">Fonts i crèdits</a> · <a href="privacitat.html">Privacitat</a></p>
+    <p>© 2026 <a href="https://bilateria.org" target="_blank" rel="noopener">Juan José de Haro</a> · Continguts <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.ca" target="_blank" rel="noopener">CC BY-SA 4.0</a> · Codi <a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noopener">AGPL v3</a></p>
+    <p><a href="fonts.html#com-sha-fet">Fet amb IA</a> (Claude Code, octubre de 2026).</p>
+  </footer>
+
+  <script src="comu.js"></script>
+  <script>llegeixDades(document.documentElement.dataset.dades || 'casa.json').then((d) => posaVersio(d.versio)).catch(() => {});</script>
+</body>
+</html>

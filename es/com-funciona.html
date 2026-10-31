@@ -1,0 +1,188 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<html lang="es" data-theme="light" data-dades="montflorit.json" data-arrel="../" data-notes="https://github.com/meteo-montflorit/meteo-local/releases/tag/v3.207.1">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cómo funciona · El tiempo en Montflorit</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 14.9A7 7 0 1 1 15.7 8h1.8a4.5 4.5 0 0 1 2.5 8.2'/%3E%3Cpath d='M16 14v6M8 14v6M12 16v6'/%3E%3C/svg%3E">
+  <script>
+    try {
+      const triat = localStorage.getItem('meteo.fosc');
+      const fosc = triat === null ? matchMedia('(prefers-color-scheme: dark)').matches : triat === '1';
+      document.documentElement.dataset.theme = fosc ? 'dark' : 'light';
+    } catch (_) {}
+  </script>
+  <link rel="manifest" href="../manifest.webmanifest">
+  <link rel="apple-touch-icon" href="../icones/apple-touch-icon.png">
+  <meta name="theme-color" content="#1d4ed8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#12161c" media="(prefers-color-scheme: dark)">
+  <link rel="stylesheet" href="../estil.css">
+  <link rel="alternate" hreflang="ca" href="https://meteo-montflorit.github.io/com-funciona.html">
+  <link rel="alternate" hreflang="es" href="https://meteo-montflorit.github.io/es/com-funciona.html">
+  <link rel="alternate" hreflang="x-default" href="https://meteo-montflorit.github.io/com-funciona.html">
+  <script>
+    try {
+      const triat = localStorage.getItem('meteo.idioma') || (navigator.languages || [navigator.language])
+        .map((l) => String(l || '').slice(0, 2).toLowerCase()).find((l) => l === 'ca' || l === 'es');
+      const altre = triat && triat !== document.documentElement.lang
+        && document.querySelector(`link[rel="alternate"][hreflang="${triat}"]`);
+      if (altre) location.replace(new URL(altre.href).pathname + location.search + location.hash);
+    } catch (_) {}
+  </script>
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="El tiempo en Montflorit">
+  <meta property="og:title" content="Cómo funciona · El tiempo en Montflorit">
+  <meta property="og:url" content="https://meteo-montflorit.github.io/es/com-funciona.html">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:locale:alternate" content="ca_ES">
+  <meta property="og:image" content="https://meteo-montflorit.github.io/img/compartir-capvespre-es.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="El tiempo en Montflorit">
+  <meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <!-- Icones de Lucide (ISC) -->
+    <symbol id="i-bell-ring" viewBox="0 0 24 24"><path d="M10.268 21a2 2 0 0 0 3.464 0M22 8c0-2.3-.8-4.3-2-6"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326M4 2C2.8 3.7 2 5.7 2 8"/></symbol>
+    <symbol id="i-share-2" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98M15.41 6.51l-6.82 3.98"/></symbol>
+    <symbol id="i-circle-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2m-7.07-17.07 1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></symbol>
+    <symbol id="i-cloud-sun" viewBox="0 0 24 24"><path d="M12 2v2m-7.07.93 1.41 1.41M20 12h2m-2.93-7.07-1.41 1.41M15.947 12.65a4 4 0 0 0-5.925-4.128"/><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z"/></symbol>
+    <symbol id="i-door-open" viewBox="0 0 24 24"><path d="M10 21H2M10 3H7a2 2 0 0 0-2 2v16M14 12h.01M22 21h-3"/><path d="M19 21V5a2 2 0 0 0-1.675-1.974l-6.163-1.013A1 1 0 0 0 10 3v18a1 1 0 0 0 1.124.992z"/></symbol>
+    <symbol id="i-waves" viewBox="0 0 24 24"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></symbol>
+    <symbol id="i-triangle-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3M12 9v4M12 17h.01"/></symbol>
+    <symbol id="i-message-square-text" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2zM13 8H7M17 12H7"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+  </svg>
+
+  <header class="cap">
+    <div>
+      <h1>Cómo funciona</h1>
+      <p class="ruta">Montflorit, Cerdanyola del Vallès</p>
+    </div>
+    <div class="cap-botons">
+      <nav class="idiomes" aria-label="Idioma"><a href="../com-funciona.html" lang="ca" hreflang="ca" title="Català" aria-label="Català">CA</a><span lang="es" aria-current="page" title="Castellano" aria-label="Castellano">ES</span></nav>
+      <button type="button" class="boto-icona boto-compartir" title="Comparte esta página" aria-label="Comparte esta página"><svg aria-hidden="true"><use href="#i-share-2"></use></svg></button>
+      <a class="boto-icona" href="com-funciona.html" aria-current="page" title="Cómo funciona" aria-label="Cómo funciona"><svg aria-hidden="true"><use href="#i-circle-help"></use></svg></a>
+      <a class="boto-icona boto-avisos" href="avisos.html" title="Notificaciones" aria-label="Notificaciones"><svg aria-hidden="true"><use href="#i-bell-ring"></use></svg></a>
+      <button type="button" id="btn-fosc" class="boto-icona" title="Cambia entre tema claro y oscuro" aria-label="Cambia entre tema claro y oscuro">
+        <svg aria-hidden="true"><use href="#i-moon"></use></svg>
+      </button>
+    </div>
+  </header>
+  <nav class="pagines" aria-label="Páginas">
+    <a href="./"><svg aria-hidden="true"><use href="#i-cloud-sun"></use></svg>Tiempo</a>
+    <a href="perill.html"><svg aria-hidden="true"><use href="#i-triangle-alert"></use></svg>Avisos</a>
+    <a href="riera.html"><svg aria-hidden="true"><use href="#i-waves"></use></svg>Riera</a>
+    <a href="sortir.html"><svg aria-hidden="true"><use href="#i-door-open"></use></svg>Si sales</a>
+    <a href="consultes.html"><svg aria-hidden="true"><use href="#i-message-square-text"></use></svg>Consultas</a>
+  </nav>
+
+  <main class="contingut">
+    <p>El tiempo en Montflorit es la web del tiempo del barrio de Montflorit, en Cerdanyola del Vallès. A continuación se explica por qué nació, qué ofrece y de dónde sale lo que dice.</p>
+
+    <h2>Por qué nació</h2>
+    <p>Las previsiones generales se calculan para zonas de varios kilómetros, y en otoño buena parte de la lluvia del Vallès es de chubascos que se forman y desaparecen en menos de una hora. Esas previsiones a menudo no los ven o no los sitúan en el lugar donde caen.</p>
+    <p>La web empezó como una herramienta de uso familiar para saber cada mañana si llovería durante un desplazamiento corto, a primera hora y a mediodía. Pronto se vio que no bastaba con un solo modelo: el 5 de octubre de 2026, mientras en Montflorit caían más de 20&nbsp;mm por hora, el modelo AROME de Météo-France preveía 0,0. Por eso se construyó sobre tres principios. El primero es mirar lo que pasa de verdad en el barrio, con estaciones y radar. El segundo, combinar varios modelos y fuentes. Y el tercero, comparar cada día lo que se previó con lo que pasó, para corregirse.</p>
+    <p>Los desbordamientos de la riera de Sant Cugat del <a href="https://www.cerdanyola.cat/actualitat/els-serveis-municipals-treballen-recuperar-la-normalitat-despres-de-lepisodi-de-pluges" target="_blank" rel="noopener">29 de septiembre</a> y del <a href="https://www.cerdanyola.cat/node/20295" target="_blank" rel="noopener">4 de octubre de 2026</a>, en los que el agua entró en las casas de Montflorit, hicieron ver que una previsión detallada del tiempo podía ser muy útil para todo el barrio. El 6 de octubre, la web se abrió a todo el vecindario, y al día siguiente incorporó un aviso del riesgo de desbordamiento de la riera.</p>
+
+    <h2>Qué ofrece</h2>
+    <p>La web tiene cinco páginas, una de fiabilidad y varias maneras de recibir los avisos:</p>
+    <ul>
+      <li><strong>Tiempo:</strong> lo que miden ahora las estaciones del barrio, el resumen del día, el radar y la previsión hora a hora hasta las 21&nbsp;h del día siguiente, por tramos de mañana, tarde y noche, con los avisos oficiales y los cortes de luz del barrio.</li>
+      <li><strong>Avisos:</strong> los avisos de peligro en Montflorit: los oficiales de la AEMET, de Meteocat y de Protección Civil, los incendios forestales de Collserola a 5 km o menos del barrio y cualquier otro a 2 km o menos, el riesgo de desbordamiento de la riera y el tiempo extremo, con un enlace para saber más.</li>
+      <li><strong>Riera:</strong> la riera de Sant Cugat: el aviso si lo hay, cómo está ahora, lo que prevén los modelos para las próximas horas y los episodios desde 2024.</li>
+      <li><strong>Si sales:</strong> para una hora de salida y una de vuelta, cómo irá cada medio de transporte, qué ropa conviene, el estado de los trenes que paran en Cerdanyola y las incidencias de tráfico a menos de 5&nbsp;km.</li>
+      <li><strong>Consultas:</strong> la previsión de hoy y de mañana, el sol, la luna y el índice UV, la calidad del aire, el polen de la semana, los trenes, el tráfico y los cortes de luz.</li>
+      <li><strong>Fiabilidad</strong>, en el menú de arriba: cuánto acierta la previsión de esta web, comparada con lo que se mide en el barrio y con Meteocat y la AEMET.</li>
+      <li><strong>Notificaciones:</strong> en el móvil o en el ordenador, sin instalar nada, o por Telegram, con un bot que responde consultas y un canal informativo. Avisan de la lluvia unos 15 minutos antes de que llegue, de las situaciones de peligro, del riesgo de desbordamiento de la riera de Sant Cugat, de los cortes de luz del barrio y de la previsión del día.</li>
+    </ul>
+
+    <h2 id="barri">El barrio</h2>
+    <p>Para la web, Montflorit es la zona del mapa: la parte de Collserola y, al otro lado de la riera, hasta el carrer de Santa Rosa, con el poblado ibérico de Ca n'Oliver. Cerdanyola no tiene límites oficiales de barrios; de dónde salen estos, en <a href="fonts.html">Fuentes y créditos</a>. Sirven para los cortes de luz: la web solo muestra y avisa de los que caen dentro del barrio o a menos de 150&nbsp;m del límite.</p>
+    <p class="mapa-barri"><a class="amplia" href="../img/montflorit-limits.svg" target="_blank"><img src="../img/montflorit-limits.svg" width="653" height="853" alt="Mapa de los límites de Montflorit: la parte de Collserola y, al otro lado de la riera de Sant Cugat, hasta el carrer de Santa Rosa, con el poblado ibérico de Ca n'Oliver"></a></p>
+
+
+    <h2 id="riera">El aviso de la riera de Sant Cugat</h2>
+    <p class="entrada destacada">No te acerques a la riera y sigue las indicaciones de Protección Civil y del Ayuntamiento.</p>
+    <ul>
+      <li><strong>Atención:</strong> 35&nbsp;mm en 3 horas en Sant Cugat. Si sigue lloviendo fuerte, se puede desbordar.</li>
+      <li><strong>Peligro:</strong> 50&nbsp;mm en 3 horas y 60 en 6. Con esta lluvia ya se ha desbordado otras veces.</li>
+    </ul>
+    <p>El agua de la riera baja de Collserola y de Sant Cugat y llega enseguida a Montflorit: por eso se mira la lluvia de Sant Cugat, la de la estación de Meteocat y la de seis estaciones particulares del centro y de la parte alta, que llega cada cinco minutos, y la que el radar ve venir. Manda la que da más.</p>
+    <p>Aviso orientativo y no oficial, calculado por esta web. Detalles, en la <a href="https://github.com/meteo-montflorit/meteo-local/blob/main/docs/estadistica.md#12-la-riera-de-sant-cugat" target="_blank" rel="noopener">metodología</a>.</p>
+
+    <h2 id="temps-extrem">Los avisos de tiempo extremo de la web</h2>
+    <p class="entrada destacada">Avisan cuando lo que miden las estaciones del barrio o lo que prevén los modelos para Montflorit pasa los umbrales de los avisos de peligro de Meteocat para Cerdanyola, aunque Meteocat no haya dado ninguno.</p>
+    <p>Los umbrales, el primero para el amarillo y el segundo para el naranja:</p>
+    <ul>
+      <li><strong>Lluvia intensa:</strong> más de 20 o 40&nbsp;mm en media hora, medidos; más de 60 o 90&nbsp;mm en 3 horas, medidos o previstos.</li>
+      <li><strong>Mucha lluvia:</strong> más de 100 o 200&nbsp;mm en 24 horas, previstos.</li>
+      <li><strong>Viento fuerte:</strong> rachas de más de 72 o 108&nbsp;km/h, previstas.</li>
+      <li><strong>Calor intenso:</strong> más de 36,8 o 38,8&nbsp;°C.</li>
+      <li><strong>Frío intenso:</strong> menos de −1,6 o −3,6&nbsp;°C, junto a la riera, la zona más fría del barrio.</li>
+      <li><strong>Nieve:</strong> cualquier espesor, o más de 5&nbsp;cm en 24 horas, previstos.</li>
+    </ul>
+    <p>Cada aviso dice de dónde sale y cuánto se puede confiar en él. Las rachas son las del modelo que prevé más de los tres que se consultan (AROME HD, AROME e ICON-EU), como la lluvia, porque los que mezclan modelos rebajan los picos; el aviso dice cuántos también prevén rachas por encima del umbral, con la de cada uno: si solo la prevé un modelo, a menudo de una tormenta, puede llegar antes, después o en otro lugar. La lluvia prevista también es la del modelo que da más, y la temperatura, la de Météo-France corregida con una estación del barrio. La lluvia y la temperatura de ahora son las que miden las estaciones.</p>
+    <p>El rojo de Meteocat también depende de la probabilidad, que la web no tiene para estos fenómenos; el granizo, los tornados y los reventones no se pueden medir aquí y llegan por los avisos de tiempo violento de Meteocat y de tormentas de la AEMET.</p>
+    <p>No es oficial: si la AEMET, Meteocat o Protección Civil dan un aviso, manda el suyo. Detalles, en la <a href="https://github.com/meteo-montflorit/meteo-local/blob/main/docs/estadistica.md#11-situaciones-de-peligro" target="_blank" rel="noopener">metodología</a>.</p>
+
+    <h2>Una previsión que aprende</h2>
+    <p>Lo que distingue a esta web es que no se limita a repetir lo que dicen los modelos. Cada hora guarda lo que prevé para las horas siguientes y, más adelante, lo compara con lo que han medido las estaciones. Con ese registro, varias partes del cálculo aprenden solas, lo que se conoce como aprendizaje automático, y mejoran con el tiempo:</p>
+    <ul>
+      <li><strong>La probabilidad de lluvia</strong> no es la de un modelo, sino la que resultó cierta en el pasado cuando los modelos decían lo mismo. De momento sale de lo que llovió en Sabadell y Sant Cugat desde 2024: comprobada en semanas que no se habían usado para ajustarla, cuando dice un 40&nbsp;%, llueve el 40&nbsp;% de las horas. Cada día se entrena otra con lo que llueve de verdad en el barrio, que la sustituirá cuando haya bastantes horas de lluvia para comprobarla y acierte claramente más.</li>
+      <li><strong>La temperatura</strong> es la de junto a la riera, la zona más fría del barrio, y se corrige con lo que ha medido allí una estación particular durante un año, porque el modelo suele dar ahí más calor, sobre todo de noche: el error medio baja de 1,5 a 1,0&nbsp;°C. Cada día se entrena una corrección nueva con el registro propio, que la sustituirá si acierta más.</li>
+      <li><strong>La previsión de 7 días</strong> sale, a partir de pasado mañana, del modelo del Centro Europeo (ECMWF), el único de los que usa la web que llega a una semana. Cada día se corrigen su máxima y su mínima con lo que se ha equivocado en la estación los últimos 30 días, por separado para cada día vista, porque el modelo suele dar ahí las máximas más bajas y las mínimas más altas. Comprobado con un año de medidas, el error medio baja de 1,6 a 1,3&nbsp;°C el tercer día (pasado mañana) y de 2,1 a 1,9&nbsp;°C el séptimo. La probabilidad de lluvia es, de momento, la parte de las 51 variantes del modelo que ven lluvia: se guarda cada hora para comprobarla con la lluvia que cae.</li>
+      <li><strong>La humedad</strong> de la gráfica sale del punto de rocío de los modelos, que dice cuánta agua lleva el aire, y de la temperatura de la web. Los modelos ven el aire más seco de lo que está, y el punto de rocío se corrige con un año de medidas de la misma estación: el error medio de la humedad baja de 7,3 a 4,4 puntos. Cada día se entrena una corrección nueva con todas las estaciones del barrio, que la sustituirá si acierta más.</li>
+      <li><strong>La diferencia con la parte alta</strong>, que suele ser más cálida, cambia según la hora del día y la época del año: se calcula cada día, hora a hora, con lo que han medido las estaciones del barrio los últimos 30 días. De noche se corrige con las nubes y el viento previstos, porque con el cielo despejado y sin viento el aire frío se acumula junto a la riera y la diferencia crece hasta unos 2&nbsp;°C; el ajuste sale de tres inviernos de las estaciones del barrio, en las noches de helada rebaja el error de 1,03 a 0,85&nbsp;°C, y se vigila este invierno.</li>
+      <li><strong>El viento</strong>, de momento, es el de la estación de Meteocat de Sant Cugat. Cada día se aprende a estimarlo con las estaciones del barrio, que lo sustituirán cuando haya bastantes días de viento para comprobar que aciertan.</li>
+      <li><strong>El radar</strong> se lleva hacia delante hasta dos horas con el movimiento de la lluvia. Hay dos, el de Meteocat y el de RainViewer, y cada día se mira cuál ha acertado más en Montflorit el último mes para usar ese. La lluvia muy débil que los pluviómetros no recogen (llovizna) se dice cuando la ven los dos radares encima del barrio; todavía no cuenta en la previsión.</li>
+      <li><strong>El cielo</strong> es la media de las nubes de cuatro modelos, porque uno solo cambia demasiado de una hora a otra. Cada hora se compara con lo que observa el aeropuerto de Sabadell, y cada día se ajusta el peso de cada modelo con el último mes. Los pesos nuevos solo sustituyen a los vigentes si aciertan más en semanas que no se han usado para ajustarlos, y de forma clara.</li>
+      <li><strong>La hora a la que pararía de llover</strong>, calculada con el radar, sale marcada «en entrenamiento»: aprende sola comparándola con la lluvia real medida en el barrio.</li>
+      <li><strong>Los avisos oficiales</strong> también se registran hora a hora, para que el cálculo de la lluvia aprenda cuánto pesan cuando los modelos no la ven.</li>
+    </ul>
+    <p>Este aprendizaje automático usa métodos estadísticos clásicos: una regresión logística para la probabilidad de lluvia una regresión lineal para corregir la temperatura y una regresión con los pesos positivos que suman 1 para combinar las nubes de los modelos, ajustadas con lo que ha pasado de verdad. No interviene ninguna inteligencia artificial generativa: todo lo calcula un programa. Después, una IA solo revisa que lo que se publica no se contradiga (<a href="fonts.html#com-sha-fet">cómo se ha hecho</a>).</p>
+    <p>Un método nuevo solo sustituye al vigente si acierta más. Cada día se comparan los dos en semanas que no se han usado para ajustarlos, y el cambio se aplica solo cuando la diferencia es clara.</p>
+    <p>Además, lo que se mide manda sobre lo que se calcula. Si alguna de las estaciones del barrio marca lluvia, la web dice que llueve, aunque los modelos no lo vean. Si ha llovido en la última hora, aunque ya haya parado, las primeras horas de la previsión parten de lo que pasó en casos parecidos. En la hora en curso, las nubes bajas son las que observa el aeropuerto de Sabadell; las altas, que el aeropuerto no da, salen de los modelos. Y si en las últimas horas ha llovido mucho más de lo previsto, la página lo avisa.</p>
+
+    <h2>Las fuentes que usa</h2>
+    <p>Ninguna fuente basta por sí sola para saber qué pasa en el barrio, y por eso la web combina los datos de todas estas:</p>
+    <ul>
+      <li><strong>Estaciones:</strong> cinco estaciones particulares del barrio y de los alrededores, dos junto a la riera y tres en la parte alta (una, al minuto, y cuatro de la red de Weather Underground, cada cinco minutos), y las de Meteocat en Sabadell y Sant Cugat; la de Sant Cugat da de momento el viento, hasta que se pueda hacer con las del barrio.</li>
+      <li><strong>Radar:</strong> el del Servei Meteorològic de Catalunya, con su predicción del movimiento de la lluvia, y el de RainViewer.</li>
+      <li><strong>Nubes:</strong> los informes meteorológicos (METAR) del aeropuerto de Sabadell, cada media hora, de día y de noche.</li>
+      <li><strong>Modelos:</strong> AROME de Météo-France, a 1,5 y 2,5&nbsp;km, y ARPEGE, del mismo servicio. También ICON-EU, del servicio meteorológico alemán, a 7&nbsp;km, y sus 40 variantes, que dicen cuán segura es la previsión, y ECMWF, el modelo europeo de referencia, a 9&nbsp;km, para la probabilidad de lluvia y las nubes. Para las nubes, también el GFS de Estados Unidos. Llegan a través de Open-Meteo.</li>
+      <li><strong>Avisos y emergencias:</strong> la AEMET, los avisos de peligro de Meteocat, los planes de Protección Civil de la Generalitat, los incendios en curso de Bombers y el Pla Alfa de los Agents Rurals.</li>
+      <li><strong>Trenes, tráfico, luz, aire y polen:</strong> Rodalies, Renfe y FGC, con los avisos y los trenes en tiempo real, el Servei Català de Trànsit y, para los cortes de luz, e-distribución. La calidad del aire sale del servicio Copernicus de la Unión Europea, el polen, del Punt d'Informació Aerobiològica de la UAB, y el sol y el índice UV, de Open-Meteo.</li>
+    </ul>
+    <p>Todas las fuentes, con los enlaces y las licencias, están en <a href="fonts.html">Fuentes y créditos</a>.</p>
+
+    <h2>Lo que hay que tener en cuenta</h2>
+    <p>Es una previsión calculada automáticamente, no una previsión oficial. En caso de duda, manda lo que se vea en el cielo y en el radar, y siempre las indicaciones de Protección Civil.</p>
+    <p>Una probabilidad baja no es un cero: una de cada nueve horas de lluvia llegó cuando la probabilidad era de menos del 5&nbsp;%.</p>
+
+    <h2>Para profundizar</h2>
+    <ul>
+      <li>Al final de cada página, «De dónde sale» resume de dónde sale cada dato, y «Cómo se decide», cómo se decide cada consejo.</li>
+      <li>La <a href="https://github.com/meteo-montflorit/meteo-local/blob/main/docs/estadistica.md" target="_blank" rel="noopener">metodología matemática</a> recoge las fórmulas de la probabilidad de lluvia y de la corrección de la temperatura, y cómo se comprueba si un método nuevo acierta más.</li>
+      <li>El <a href="https://github.com/meteo-montflorit/meteo-local/tree/main/docs/adr" target="_blank" rel="noopener">registro de decisiones</a> explica por qué se hizo cada cambio y cuándo, con las pruebas que lo justifican.</li>
+      <li>El <a href="https://github.com/meteo-montflorit/meteo-local" target="_blank" rel="noopener">código fuente</a> es libre, con licencia AGPL v3.</li>
+    </ul>
+  </main>
+
+  <footer class="peu">
+    <p>No es una web oficial ni representa a ningún organismo público.</p>
+    <p id="app-android" hidden><a href="https://play.google.com/store/apps/details?id=io.github.meteo_montflorit&amp;hl=es" target="_blank" rel="noopener">📱 Descarga la app para Android (Google Play)</a></p>
+    <p><a id="versio" href="https://github.com/meteo-montflorit/meteo-local/releases" target="_blank" rel="noopener">versión —</a> · <a href="fonts.html">Fuentes y créditos</a> · <a href="privacitat.html">Privacidad</a></p>
+    <p>© 2026 <a href="https://bilateria.org" target="_blank" rel="noopener">Juan José de Haro</a> · Contenidos <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.es" target="_blank" rel="noopener">CC BY-SA 4.0</a> · Código <a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noopener">AGPL v3</a></p>
+    <p><a href="fonts.html#com-sha-fet">Hecho con IA</a> (Claude Code, octubre de 2026).</p>
+  </footer>
+
+  <script src="../es.js"></script>
+  <script src="../comu.js"></script>
+  <script>llegeixDades(document.documentElement.dataset.dades || 'casa.json').then((d) => posaVersio(d.versio)).catch(() => {});</script>
+</body>
+</html>

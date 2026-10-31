@@ -1,0 +1,195 @@
+<!doctype html>
+<!-- SPDX-License-Identifier: AGPL-3.0-or-later -->
+<html lang="es" data-theme="light" data-dades="montflorit.json" data-arrel="../" data-notes="https://github.com/meteo-montflorit/meteo-local/releases/tag/v3.207.1">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Fiabilidad de la previsión del tiempo de Montflorit (Cerdanyola del Vallès): cuánto acierta, comparada con Meteocat y AEMET, semana a semana, y cómo aprende.">
+  <title>Fiabilidad · El tiempo en Montflorit</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%232563eb' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M4 14.9A7 7 0 1 1 15.7 8h1.8a4.5 4.5 0 0 1 2.5 8.2'/%3E%3Cpath d='M16 14v6M8 14v6M12 16v6'/%3E%3C/svg%3E">
+  <script>
+    // Tema abans de pintar, perquè no parpellegi: el del sistema, si no s'ha triat.
+    try {
+      const triat = localStorage.getItem('meteo.fosc');
+      const fosc = triat === null ? matchMedia('(prefers-color-scheme: dark)').matches : triat === '1';
+      document.documentElement.dataset.theme = fosc ? 'dark' : 'light';
+    } catch (_) {}
+  </script>
+  <link rel="manifest" href="../manifest.webmanifest">
+  <link rel="apple-touch-icon" href="../icones/apple-touch-icon.png">
+  <meta name="theme-color" content="#1d4ed8" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#12161c" media="(prefers-color-scheme: dark)">
+  <link rel="stylesheet" href="../estil.css">
+  <link rel="alternate" hreflang="ca" href="https://meteo-montflorit.github.io/fiabilitat.html">
+  <link rel="alternate" hreflang="es" href="https://meteo-montflorit.github.io/es/fiabilitat.html">
+  <link rel="alternate" hreflang="x-default" href="https://meteo-montflorit.github.io/fiabilitat.html">
+  <script>
+    try {
+      const triat = localStorage.getItem('meteo.idioma') || (navigator.languages || [navigator.language])
+        .map((l) => String(l || '').slice(0, 2).toLowerCase()).find((l) => l === 'ca' || l === 'es');
+      const altre = triat && triat !== document.documentElement.lang
+        && document.querySelector(`link[rel="alternate"][hreflang="${triat}"]`);
+      if (altre) location.replace(new URL(altre.href).pathname + location.search + location.hash);
+    } catch (_) {}
+  </script>
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="El tiempo en Montflorit">
+  <meta property="og:title" content="Fiabilidad · El tiempo en Montflorit">
+  <meta property="og:description" content="Fiabilidad de la previsión del tiempo de Montflorit (Cerdanyola del Vallès): cuánto acierta, comparada con Meteocat y AEMET, semana a semana, y cómo aprende.">
+  <meta property="og:url" content="https://meteo-montflorit.github.io/es/fiabilitat.html">
+  <meta property="og:locale" content="es_ES">
+  <meta property="og:locale:alternate" content="ca_ES">
+  <meta property="og:image" content="https://meteo-montflorit.github.io/img/compartir-capvespre-es.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="El tiempo en Montflorit">
+  <meta name="twitter:card" content="summary_large_image">
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <!-- Icones de Lucide (ISC) -->
+    <symbol id="i-bell-ring" viewBox="0 0 24 24"><path d="M10.268 21a2 2 0 0 0 3.464 0M22 8c0-2.3-.8-4.3-2-6"/><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326M4 2C2.8 3.7 2 5.7 2 8"/></symbol>
+    <symbol id="i-share-2" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.59 13.51 6.83 3.98M15.41 6.51l-6.82 3.98"/></symbol>
+    <symbol id="i-circle-help" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" style="stroke:var(--ic-sol,currentColor);fill:var(--ic-sol-fons,none)"/><path d="M12 2v2M12 20v2m-7.07-17.07 1.41 1.41m11.32 11.32 1.41 1.41M2 12h2m16 0h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41" style="stroke:var(--ic-sol,currentColor)"/></symbol>
+    <symbol id="i-cloud-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" style="stroke:none;fill:var(--ic-sol-fons,none)"/><path d="M12 2v2m-7.07.93 1.41 1.41M20 12h2m-2.93-7.07-1.41 1.41M15.947 12.65a4 4 0 0 0-5.925-4.128" style="stroke:var(--ic-sol,currentColor)"/><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z" style="stroke:var(--ic-nuvol,currentColor);fill:var(--ic-nuvol-fons,none)"/></symbol>
+    <symbol id="i-door-open" viewBox="0 0 24 24"><path d="M10 21H2M10 3H7a2 2 0 0 0-2 2v16M14 12h.01M22 21h-3"/><path d="M19 21V5a2 2 0 0 0-1.675-1.974l-6.163-1.013A1 1 0 0 0 10 3v18a1 1 0 0 0 1.124.992z"/></symbol>
+    <symbol id="i-waves" viewBox="0 0 24 24"><path d="M2 6c.6.5 1.2 1 2.5 1C7 7 7 5 9.5 5c2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 12c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/><path d="M2 18c.6.5 1.2 1 2.5 1 2.5 0 2.5-2 5-2 2.6 0 2.4 2 5 2 2.5 0 2.5-2 5-2 1.3 0 1.9.5 2.5 1"/></symbol>
+    <symbol id="i-triangle-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3M12 9v4M12 17h.01"/></symbol>
+    <symbol id="i-message-square-text" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2zM13 8H7M17 12H7"/></symbol>
+    <symbol id="i-moon-cel" viewBox="0 0 24 24"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401" style="stroke:var(--ic-lluna,currentColor);fill:var(--ic-lluna-fons,none)"/></symbol>
+    <symbol id="i-cloud-moon" viewBox="0 0 24 24"><path d="M18.376 14.512a6 6 0 0 0 3.461-4.127c.148-.625-.659-.97-1.248-.714a4 4 0 0 1-5.259-5.26c.255-.589-.09-1.395-.716-1.248a6 6 0 0 0-4.594 5.36" style="stroke:var(--ic-lluna,currentColor);fill:var(--ic-lluna-fons,none)"/><path d="M13 16a3 3 0 0 1 0 6H7a5 5 0 1 1 4.9-6z" style="stroke:var(--ic-nuvol,currentColor);fill:var(--ic-nuvol-fons,none)"/></symbol>
+    <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" style="stroke:var(--ic-nuvol,currentColor);fill:var(--ic-nuvol-fons,none)"/></symbol>
+    <symbol id="i-cloudy" viewBox="0 0 24 24"><path d="M21.832 9A3 3 0 0 0 19 7h-2.207a5.5 5.5 0 0 0-10.72.61" style="stroke:var(--ic-nuvol,currentColor);fill:var(--ic-nuvol-fons,none)"/><path d="M17.5 12a1 1 0 1 1 0 9H9.006a7 7 0 1 1 6.702-9z" style="stroke:var(--ic-nuvol,currentColor);fill:var(--ic-nuvol-fons,none)"/></symbol>
+    <symbol id="i-cloudy-cobert" viewBox="0 0 24 24"><path d="M21.832 9A3 3 0 0 0 19 7h-2.207a5.5 5.5 0 0 0-10.72.61" style="stroke:var(--ic-nuvol,currentColor);fill:var(--ic-cobert-fons,var(--ic-nuvol-fons,none))"/><path d="M17.5 12a1 1 0 1 1 0 9H9.006a7 7 0 1 1 6.702-9z" style="stroke:var(--ic-nuvol,currentColor);fill:var(--ic-cobert-fons,var(--ic-nuvol-fons,none))"/></symbol>
+    <symbol id="i-cloud-fog" viewBox="0 0 24 24"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" style="stroke:var(--ic-nuvol,currentColor);fill:var(--ic-nuvol-fons,none)"/><path d="M16 17H7m10 4H9" style="stroke:var(--ic-nuvol,currentColor)"/></symbol>
+    <symbol id="i-cloud-drizzle" viewBox="0 0 24 24"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" style="stroke:var(--ic-nuvol,currentColor);fill:var(--ic-nuvol-fons,none)"/><path d="M8 19v1m0-6v1m8 4v1m0-6v1m-4 6v1m0-6v1" style="stroke:var(--ic-aigua,currentColor)"/></symbol>
+    <symbol id="i-cloud-rain" viewBox="0 0 24 24"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" style="stroke:var(--ic-nuvol,currentColor);fill:var(--ic-nuvol-fons,none)"/><path d="M16 14v6M8 14v6M12 16v6" style="stroke:var(--ic-aigua,currentColor)"/></symbol>
+    <symbol id="i-cloud-rain-wind" viewBox="0 0 24 24"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" style="stroke:var(--ic-nuvol,currentColor);fill:var(--ic-nuvol-fons,none)"/><path d="M9.2 22l3-7M9 13l-3 7m11-7-3 7" style="stroke:var(--ic-aigua,currentColor)"/></symbol>
+    <symbol id="i-cloud-sun-rain" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" style="stroke:none;fill:var(--ic-sol-fons,none)"/><path d="M12 2v2m-7.07.93 1.41 1.41M20 12h2m-2.93-7.07-1.41 1.41M15.947 12.65a4 4 0 0 0-5.925-4.128" style="stroke:var(--ic-sol,currentColor)"/><path d="M3 20a5 5 0 1 1 8.9-4H13a3 3 0 0 1 2 5.24" style="stroke:var(--ic-nuvol,currentColor);fill:var(--ic-nuvol-fons,none)"/><path d="M11 20v2m-4-3v2" style="stroke:var(--ic-aigua,currentColor)"/></symbol>
+    <symbol id="i-cloud-moon-rain" viewBox="0 0 24 24"><path d="M18.376 14.512a6 6 0 0 0 3.461-4.127c.148-.625-.659-.97-1.248-.714a4 4 0 0 1-5.259-5.26c.255-.589-.09-1.395-.716-1.248a6 6 0 0 0-4.594 5.36" style="stroke:var(--ic-lluna,currentColor);fill:var(--ic-lluna-fons,none)"/><path d="M3 20a5 5 0 1 1 8.9-4H13a3 3 0 0 1 2 5.24" style="stroke:var(--ic-nuvol,currentColor);fill:var(--ic-nuvol-fons,none)"/><path d="M11 20v2M7 19v2" style="stroke:var(--ic-aigua,currentColor)"/></symbol>
+    <symbol id="i-cloud-snow" viewBox="0 0 24 24"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" style="stroke:var(--ic-nuvol,currentColor);fill:var(--ic-nuvol-fons,none)"/><path d="M8 15h.01M8 19h.01M12 17h.01M12 21h.01M16 15h.01M16 19h.01" style="stroke:var(--ic-neu,currentColor)"/></symbol>
+    <symbol id="i-cloud-hail" viewBox="0 0 24 24"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242" style="stroke:var(--ic-nuvol,currentColor);fill:var(--ic-nuvol-fons,none)"/><path d="M16 14v2M8 14v2M12 16v2" style="stroke:var(--ic-aigua,currentColor)"/><path d="M16 20h.01M8 20h.01M12 22h.01" style="stroke:var(--ic-neu,currentColor)"/></symbol>
+    <symbol id="i-cloud-lightning" viewBox="0 0 24 24"><path d="M6 16.326A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 .5 8.973" style="stroke:var(--ic-nuvol,currentColor);fill:var(--ic-nuvol-fons,none)"/><path d="m13 12-3 5h4l-3 5" style="stroke:var(--ic-sol,currentColor)"/></symbol>
+    <symbol id="i-camera" viewBox="0 0 24 24"><path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z"/><circle cx="12" cy="13" r="3"/></symbol>
+    <symbol id="i-target" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></symbol>
+  </svg>
+
+  <header class="cap">
+    <div>
+      <h1>Fiabilidad</h1>
+      <p class="ruta">Montflorit, Cerdanyola del Vallès</p>
+    </div>
+    <div class="cap-botons">
+      <nav class="idiomes" aria-label="Idioma"><a href="../fiabilitat.html" lang="ca" hreflang="ca" title="Català" aria-label="Català">CA</a><span lang="es" aria-current="page" title="Castellano" aria-label="Castellano">ES</span></nav>
+      <button type="button" class="boto-icona boto-compartir" title="Comparte esta página" aria-label="Comparte esta página"><svg aria-hidden="true"><use href="#i-share-2"></use></svg></button>
+      <a class="boto-icona" href="com-funciona.html" title="Cómo funciona" aria-label="Cómo funciona"><svg aria-hidden="true"><use href="#i-circle-help"></use></svg></a>
+      <a class="boto-icona boto-avisos" href="avisos.html" title="Notificaciones" aria-label="Notificaciones"><svg aria-hidden="true"><use href="#i-bell-ring"></use></svg></a>
+      <button type="button" id="btn-fosc" class="boto-icona" title="Cambia entre tema claro y oscuro" aria-label="Cambia entre tema claro y oscuro">
+        <svg aria-hidden="true"><use href="#i-moon"></use></svg>
+      </button>
+    </div>
+  </header>
+  <div class="barra">
+    <nav class="pagines" aria-label="Páginas">
+      <a href="./"><svg aria-hidden="true"><use href="#i-cloud-sun"></use></svg>Tiempo</a>
+      <a href="perill.html"><svg aria-hidden="true"><use href="#i-triangle-alert"></use></svg>Avisos</a>
+      <a href="riera.html"><svg aria-hidden="true"><use href="#i-waves"></use></svg>Riera</a>
+      <a href="sortir.html"><svg aria-hidden="true"><use href="#i-door-open"></use></svg>Si sales</a>
+      <a href="consultes.html"><svg aria-hidden="true"><use href="#i-message-square-text"></use></svg>Consultas</a>
+    </nav>
+  </div>
+
+  <main class="contingut ajuda fiabilitat">
+    <p class="entrada">Cuánto acierta la previsión de esta web, comparada con lo que se mide en el barrio y con Meteocat y AEMET, y cómo aprende.</p>
+    <p id="avis-dades" class="avis" hidden></p>
+    <section aria-live="polite">
+      <h2 class="seccio">Resumen</h2>
+      <div class="fb-antelacio">
+        <p class="fb-antelacio-rotol" id="antelacio-rotol"></p>
+        <div class="fb-lliscador">
+          <input type="range" id="antelacio" min="1" max="23" step="1" value="1" aria-labelledby="antelacio-rotol" title="Con cuántas horas de antelación se hizo la previsión que se compara con lo que se midió.">
+        </div>
+        <div id="antelacio-eix" class="fb-lliscador-eix" aria-hidden="true"></div>
+      </div>
+      <div id="xifres" class="fb-xifres"><p class="carregant">Cargando…</p></div>
+      <p id="resum-periode" class="nota"></p>
+    </section>
+
+    <section>
+      <h2 class="seccio">Semana a semana</h2>
+      <p class="nota fb-amb-antelacio"></p>
+      <div class="fb-parell">
+        <div><h3>Temperatura: error medio de cada semana, en °C</h3><div id="grafica-setmanes-temperatura"></div></div>
+        <div><h3>Lluvia: error de cada semana (0 quiere decir que acierta siempre)</h3><div id="grafica-setmanes-pluja"></div></div>
+      </div>
+      <p id="setmanes-nota" class="nota"></p>
+    </section>
+
+    <section>
+      <h2 class="seccio">Día a día</h2>
+      <p class="nota fb-amb-antelacio"></p>
+      <div class="vg-dia fb-dia">
+        <button type="button" id="dia-enrere" class="boto-icona" title="Día anterior" aria-label="Día anterior"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
+        <span id="dia-nom" class="vg-nom-dia" aria-live="polite"></span>
+        <button type="button" id="dia-endavant" class="boto-icona" title="Día siguiente" aria-label="Día siguiente"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
+        <button type="button" id="dia-avui" class="vg-opcio" hidden></button>
+      </div>
+      <div id="grafica-dia"></div>
+      <p id="dia-text" aria-live="polite"></p>
+    </section>
+
+    <section>
+      <h2 class="seccio">Error según la antelación</h2>
+      <p class="nota">La antelación es cuántas horas antes se hizo la previsión: de 1 a 23 horas, con la elegida marcada. Cuanto más abajo, mejor. Meteocat y AEMET hacen la previsión para toda Cerdanyola. Donde están, la web se mide en las mismas horas que la AEMET, la que tiene más; Meteocat, que se consulta cada 3 horas, tiene menos.</p>
+      <div class="fb-parell">
+        <div><h3>Temperatura: error medio, en °C</h3><div id="grafica-antelacio-temperatura"></div></div>
+        <div><h3>Lluvia: error (0 quiere decir que acierta siempre)</h3><div id="grafica-antelacio-pluja"></div></div>
+      </div>
+    </section>
+
+    <section aria-live="polite">
+      <h2 class="seccio">Cómo aprende</h2>
+      <p class="nota">Cada día la web entrena previsiones nuevas con lo que ha pasado en el barrio, y solo las usa si aciertan más y no es casualidad.</p>
+      <div id="apren-cos" class="fb-aprens"></div>
+      <h3>Cambios que ha hecho</h3>
+      <div id="apren-canvis"></div>
+      <h3>La actual y la nueva, día a día</h3>
+      <div class="fb-parell">
+        <div><h3>Temperatura: error medio de cada día, en °C</h3><div id="grafica-apren-temperatura"></div></div>
+        <div><h3>Lluvia: error de cada día (0 quiere decir que acierta siempre)</h3><div id="grafica-apren-pluja"></div></div>
+        <div><h3>Humedad: error medio de cada día, en puntos de %</h3><div id="grafica-apren-humitat"></div></div>
+      </div>
+      <div id="apren-dies"></div>
+    </section>
+
+
+    <details class="com">
+      <summary>Las cifras y cómo se calcula</summary>
+      <div id="detall-cos"></div>
+      <h3>Cómo se calcula</h3>
+      <p>Cada hora se compara lo que decía la web con lo que se midió: la temperatura de la estación particular del barrio y la lluvia de las estaciones del barrio. La «previsión hecha 1 h antes» es la que se publicaba una hora antes de que empezara esa hora; se puede elegir de 1 a 23 horas.</p>
+      <p>La temperatura se cuenta con el error medio, en grados. Las horas en que el sol da de lleno en el termómetro no cuentan.</p>
+      <p>La parte alta del barrio se compara con la mediana de las estaciones vecinas de arriba, desde el 13 de octubre de 2026, cuando la web empezó a darla. Como esas estaciones dan grados enteros, una parte de su error viene de la medida, no de la previsión.</p>
+      <p>El error de la lluvia es el error de Brier: para cada hora, la diferencia entre la probabilidad que daba y lo que pasó (1 si llovió, 0 si no), al cuadrado, y la media de todas las horas. Si siempre acierta, es 0. Para saber si la probabilidad sirve de algo, se compara con la de alguien que dijera cada hora lo mismo, la parte de las horas en que llueve en el barrio (por ejemplo, un 8&nbsp;%): la columna «Mejora» dice cuánto se equivoca menos la web que esa persona. Meteocat y AEMET dicen para cada hora cuántos milímetros caerán, sin probabilidad: cuentan como un 100&nbsp;% si dan 0,2&nbsp;mm o más y como un 0&nbsp;% si no.</p>
+      <p>«No es casualidad» quiere decir que la diferencia se mantiene en el 95&nbsp;% de 2.000 pruebas: se vuelven a elegir los días al azar, muchas veces, y se mira si la diferencia sigue. Es la misma regla que usa la web para decidir si una previsión nueva sustituye a la actual.</p>
+      <p>Para saber si mejora con el tiempo, se comparan las 4 últimas semanas completas con las 4 anteriores, con la misma regla. Como unas semanas son más fáciles de prever que otras, la comparación con Meteocat y AEMET de cada semana ayuda a ver si la mejora es de la web o del tiempo que ha hecho.</p>
+      <p>Meteocat se consulta cada 3 horas y AEMET cada hora. Ninguno de los dos guarda las previsiones pasadas, así que la comparación empieza el 20 de octubre de 2026. Los detalles, en la <a href="https://github.com/meteo-montflorit/meteo-local/blob/main/docs/estadistica.md#17-bis-cómo-acierta-la-previsión" target="_blank" rel="noopener">metodología</a>.</p>
+    </details>
+  </main>
+
+  <footer class="peu">
+    <p>No es una web oficial ni representa a ningún organismo público.</p>
+    <p id="app-android" hidden><a href="https://play.google.com/store/apps/details?id=io.github.meteo_montflorit&amp;hl=es" target="_blank" rel="noopener">📱 Descarga la app para Android (Google Play)</a></p>
+    <p><a id="versio" href="https://github.com/meteo-montflorit/meteo-local/releases" target="_blank" rel="noopener">versión —</a> · <a href="fonts.html">Fuentes y créditos</a> · <a href="privacitat.html">Privacidad</a></p>
+    <p>© 2026 <a href="https://bilateria.org" target="_blank" rel="noopener">Juan José de Haro</a> · Contenidos <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.es" target="_blank" rel="noopener">CC BY-SA 4.0</a> · Código <a href="https://www.gnu.org/licenses/agpl-3.0.html" target="_blank" rel="noopener">AGPL v3</a></p>
+    <p><a href="fonts.html#com-sha-fet">Hecho con IA</a> (Claude Code, octubre de 2026).</p>
+  </footer>
+
+  <script src="../es.js"></script>
+  <script src="../comu.js"></script>
+  <script src="../grafica.js"></script>
+  <script src="../fiabilitat.js"></script>
+</body>
+</html>
